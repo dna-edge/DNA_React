@@ -1,8 +1,28 @@
+/* for React */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import Favicon from 'react-favicon';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+/* for Redux */
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
+import promise from 'redux-promise';
+
+/* for Design, etc */
+import 'bootstrap/dist/css/bootstrap.css';
+import faviconPath from '../public/favicon.ico';
+
+import App from './components/App';
+import reducers from './reducers';
+// import registerServiceWorker from './registerServiceWorker';
+
+const createStoreWithMiddleware = applyMiddleware(promise, ReduxThunk)(createStore);
+
+ReactDOM.render(
+  <Provider store={createStoreWithMiddleware(reducers)}>
+    <div id='under-root'>
+      <Favicon url={faviconPath} />
+      <App />
+    </div>
+  </Provider>, document.getElementById('root'));
