@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './styles.css';
 
-import LoginForm from './../../users/LoginForm';
-import RegisterForm from './../../users/RegisterForm';
-import MessageList from './../../messages/geochat/MessageList';
-import MapComponent from './../../maps/MapComponent';
+import LoginForm from './users/LoginForm';
+import RegisterForm from './users/RegisterForm';
+import MessageList from './messages/geochat/MessageList';
+import MapComponent from './maps/MapComponent';
 
 // export const BeforeContentsComponent = () => (
 //   <div className='contents-wrapper'>
@@ -25,7 +25,7 @@ export const LoginComponent = () => (
 );
 
 export const MainComponent = () => (
-  <div className='contents-wrapper'>
+  <div className='h100'>
     <MapComponent />
     <MessageList />
   </div>

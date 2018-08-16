@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { reduxForm, reset, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { sendMessage, makeUpdate }
-  from './../../../actions/messages/GeoMsgAction';
+  from './../../../../../actions/messages/GeoMsgAction';
+import { Button } from 'reactstrap';
 import Message from './Message';
 
 import styles from './../styles.css';
@@ -40,7 +41,9 @@ class MessageForm extends Component{
       <form className="message-write" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <Field name="contents" component={renderInput} />
 
-        <button type="submit"><span className="ion-ios-paperplane-outline"></span></button>
+        <Button className="msg-form-button" type="submit">
+          <span className="ion-ios-paperplane-outline"></span>
+        </Button>
       </form>
     )
   }

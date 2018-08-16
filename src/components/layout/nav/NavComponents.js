@@ -76,7 +76,7 @@ export class NavAfterComponent extends Component {
         <Navbar className='nav-bar'>
           <a href='/' className='nav-logo'><img className='nav-logo-img' src={imagePath} /></a>
           <NavLink className='nav-main-item' href="/posts"
-            style={{left: '480px'}}>
+            style={{left: '460px'}}>
             Posts</NavLink>
           <div className='nav-search'>
             <Input type="text" name="search" className="search-input"

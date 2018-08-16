@@ -12,6 +12,9 @@ import { setSocketConnected, getGeoLocation,
 import BeforeLoginLayout from './layout/BeforeLoginLayout';
 import AfterLoginLayout from './layout/AfterLoginLayout';
 
+import jQuery from "jquery";
+window.$ = window.jQuery = jQuery;
+
 function mapStateToProps(state) {
   return {
     notiGrant: state.app.notiGrant,
@@ -48,6 +51,8 @@ class App extends Component {
         }
       });
     }
+
+    // window.$("#map").hide();
   }
 
   render() {

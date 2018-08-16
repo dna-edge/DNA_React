@@ -100,6 +100,10 @@ module.exports = {
   },
   module: {
     strictExportPresence: true,
+      loaders: [{
+      test: /\.scss$/,
+      loaders: ['style', 'css', 'sass']
+    }],
     rules: [
       // TODO: Disable require.ensure as it's not a standard language feature.
       // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.

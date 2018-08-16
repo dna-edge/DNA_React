@@ -1,0 +1,13 @@
+.geo-chat-map{
+  display: inline-block;
+  vertical-align: bottom;
+  width: 25%;
+  height: 80%;
+}
+
+.map-home-button {
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 30px;
+  height: 30px;
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getMessages } from './../../../actions/messages/GeoMsgAction';
+import { getMessages } from './../../../../../actions/messages/GeoMsgAction';
 import Message from './Message';
 import MessageForm from './MessageForm';
 
@@ -21,7 +21,9 @@ class MessageList extends Component {
   }
 
   componentWillMount(){
-    this.props.getMessages();
+    if (localStorage.getItem('coord')) {
+      this.props.getMessages();
+    }
     // this.props.getNewMessageCount();
   }
 
@@ -62,7 +64,6 @@ class MessageList extends Component {
     return this.props.messages
       // .slice(0, 15 * this.state.page - 1)
       .map((message) => {
-        console.log(message.contents);
         if(this.state.userIdx === message.sender_idx) {
           return (
             <Message message={message} key={message.idx} sender={"me"} />

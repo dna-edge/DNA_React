@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { login } from './../../actions/users/UserAction';
+import { login } from './../../../../actions/users/UserAction';
 
 import styles from './styles.css';
 

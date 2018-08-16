@@ -30,33 +30,35 @@ export function setSocketConnected() {
     socket = io(SOCKET_API_URL, {transports: ['websocket', 'flashsocket']});
 
     // 2. 현재 정보 세팅
-    const location = JSON.parse(localStorage.getItem('coord'));
-    let info = {
-      customId: JSON.parse(localStorage.getItem('profile')).idx,
-                // TODO 웹 앱 동시 접속 처리 방법 구상
-      location: [location.lng, location.lat],
-                // 클라이언트의 현재 위치 정보입니다.([lng, lat] 순서)
-      radius  : localStorage.getItem("radius")
-                // 반경 몇m의 채팅을 받을 것인지를 의미하는 반지름 값입니다. TODO 커스텀하기
-    };
-
-    // 3. 연결하면서 현재 정보 서버에 전송
-    socket.on('connect', function() {
-      socket.emit('store', info);
-    });
-
-    // 4. 서버로 ping 전송하기
-    socket.on('ping', () => {
-      getGeoLocation();
+    if (localStorage.getItem('coord')){
       const location = JSON.parse(localStorage.getItem('coord'));
-
-      info = {
+      let info = {
+        customId: JSON.parse(localStorage.getItem('profile')).idx,
+                  // TODO 웹 앱 동시 접속 처리 방법 구상
         location: [location.lng, location.lat],
+                  // 클라이언트의 현재 위치 정보입니다.([lng, lat] 순서)
         radius  : localStorage.getItem("radius")
-      }
-      // TODO 유저의 현재 상태를 업데이트해서 info로 전달
-      socket.emit('update', info);
-    });
+                  // 반경 몇m의 채팅을 받을 것인지를 의미하는 반지름 값입니다. TODO 커스텀하기
+      };
+
+      // 3. 연결하면서 현재 정보 서버에 전송
+      socket.on('connect', function() {
+        socket.emit('store', info);
+      });
+
+      // 4. 서버로 ping 전송하기
+      socket.on('ping', () => {
+        getGeoLocation();
+        const location = JSON.parse(localStorage.getItem('coord'));
+
+        info = {
+          location: [location.lng, location.lat],
+          radius  : localStorage.getItem("radius")
+        }
+        // TODO 유저의 현재 상태를 업데이트해서 info로 전달
+        socket.emit('update', info);
+      });
+    }
   }
 
   return {

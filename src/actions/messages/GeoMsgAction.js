@@ -16,7 +16,7 @@ export function getMessages(conversationIdx){
   const request = axios.post(`${ROOT_URL}/message`,
     { lng: location.lng, lat: location.lat, radius: localStorage.getItem("radius") },
     { headers: { 'token' : token } });
-    
+
   return {
     type: GET_MESSAGES,
     payload: request
@@ -48,4 +48,8 @@ export function makeNotUpdate(){
   return {
     type: MESSAGE_MAKE_NOT_UPDATE
   }
+}
+
+export function setNaverMap() {
+
 }
