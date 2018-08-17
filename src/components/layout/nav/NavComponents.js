@@ -95,7 +95,7 @@ export class NavAfterComponent extends Component {
               <NavLink href="#"><FontAwesome className='nav-item-fa' name='bell' />
               </NavLink>
             </NavItem>
-            <vl />
+            <div className="vl" />
             <NavbarToggler style={{ padding: 0, marginLeft: 20 }} onClick={this.toggleNavbar}>
               <NavLink href="#"><FontAwesome className='nav-item-fa' name='bars' />
               </NavLink>

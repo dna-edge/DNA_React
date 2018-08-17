@@ -4,3 +4,8 @@
   height: 100%;
   margin: 0 auto;
 }
+
+.main-left-wrapper {
+  display: inline-block;
+  width: 25%;
+}

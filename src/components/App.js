@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 /* for Redux */
 import { connect } from 'react-redux';
@@ -19,6 +19,7 @@ function mapStateToProps(state) {
   return {
     notiGrant: state.app.notiGrant,
     socket: state.app.socket,
+    location: state.app.location,
     token: state.user.all
   };
 }
@@ -35,7 +36,6 @@ class App extends Component {
   // 앱이 시작될 때 Fetch 해오기 시작
   async componentWillMount() {
     this.props.setSocketConnected();
-    console.dir(this.props.socket);
 
     await this.props.getGeoLocation();
 
@@ -51,8 +51,6 @@ class App extends Component {
         }
       });
     }
-
-    // window.$("#map").hide();
   }
 
   render() {
@@ -64,9 +62,9 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
+      <BrowserRouter>
         { renderLayout }
-      </div>
+      </BrowserRouter>
     );
   }
 }

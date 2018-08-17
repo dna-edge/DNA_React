@@ -6,6 +6,7 @@
 .nav-bar {
   position: relative;
   padding: 6px !important;
+  padding-bottom: 5px !important;;
   width: 1024px;
   margin: 0 auto;
 }
@@ -30,25 +31,30 @@
   width: 400px !important;
   position: absolute;
   left: 55px;
-  top: 9px;
+  top: 10px;
   width: auto;
 }
 
 .search-input {
   width: 100% !important;
-  padding: 4px 10px !important;
-  font-size: 16px !important;
+  height: 30px !important;
+  padding: 2px 10px !important;
+  font-size: 15px !important;
 }
 
-vl {
-    display: block;
-    width: 3px;
-    background-color: rgba(255, 255, 255, 0.6);
-    position: absolute;
-    top: 1px;
-    bottom: 8px;
-    border-radius: 1px;
-    right: 57px;
+.search-input:focus, .search-input:active, .search-input:enabled {
+  border: none !important;
+}
+
+.vl {
+  display: block;
+  width: 2.5px;
+  background-color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  top: 4px;
+  bottom: 8px;
+  border-radius: 1px;
+  right: 57px;
 }
 
 .nav-link {
@@ -79,19 +85,18 @@ vl {
 }
 
 .nav-button {
-  border: 1.5px solid white;
-  color: white;
-  width: 100px;
-  margin-top: -1px;
-  padding: 8px 15px;
-  font-size: 18px;
+  border: 1px solid white;
+  color: white !important;
+  background-color: #634C89 !important;
+  width: 90px;
+  padding: 7px 12px;
+  font-size: 16px;
   font-weight: 500;
-  border-radius: 5px;
 }
 
-.nav-button:hover, .nav-button:active, .nav-button:enabled {
-  background-color: white;
-  color: #454545;
+.nav-button:hover {
+  background-color: white !important;
+  color: #454545 !important;
   text-decoration: none;
 }
 

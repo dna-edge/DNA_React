@@ -3,15 +3,17 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 /* import Components */
 import { NavBeforeComponent } from './nav/NavComponents';
-import { RegisterComponent, LoginComponent } from './contents/ContentsComponents';
+import LoginForm from './contents/users/LoginForm';
+import RegisterForm from './contents/users/RegisterForm';
 
 const BeforeLoginLayout = () => (
   <div className="h100">
     <NavBeforeComponent />
     <BrowserRouter>
-      <div>
-          <Route exact path="/signup" component={RegisterComponent} />
-          <Route exact path="/login" component={LoginComponent} />
+      <div className="h100calc contents-wrapper">
+          <Route exact path="/signup" component={RegisterForm} />
+          <Route exact path="/login" component={LoginForm} />
+          <Route exact path="/" component={LoginForm} />
       </div>
     </BrowserRouter>
   </div>

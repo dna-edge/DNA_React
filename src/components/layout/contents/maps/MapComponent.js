@@ -10,11 +10,12 @@ class MapComponent extends Component {
   componentDidUpdate() {
       if (localStorage.getItem('coord')) {
       const position = JSON.parse(localStorage.getItem('coord'));
+      const CURRENT_POSITION = new window.naver.maps.LatLng(position.lat, position.lng);
 
       var locationBtnHtml = `<a href="" class="btn_mylct"><img class="map-home-button" src="${homePng}"/></a>`;
       var map = new window.naver.maps.Map('map', {
-          center: new window.naver.maps.LatLng(position.lat, position.lng), //지도의 초기 중심 좌표
-          zoom: 8, //지도의 초기 줌 레벨
+          center: CURRENT_POSITION, //지도의 초기 중심 좌표
+          zoom: 11, //지도의 초기 줌 레벨
           minZoom: 1, //지도의 최소 줌 레벨
           zoomControl: true, //줌 컨트롤의 표시 여부
           zoomControlOptions: { //줌 컨트롤의 옵션
@@ -23,11 +24,21 @@ class MapComponent extends Component {
       });
 
       var urlMarker = new window.naver.maps.Marker({
-          position: new window.naver.maps.LatLng(position.lat, position.lng),
+          position: CURRENT_POSITION,
           map: map,
           title: 'urlMarker',
-          icon: markerPng,
+          // icon: markerPng,
           animation: window.naver.maps.Animation.BOUNCE
+      });
+
+      var circle = new window.naver.maps.Circle({
+          map: map,
+          center: CURRENT_POSITION,
+          radius: 100,
+          fillColor: 'crimson',
+          fillOpacity: 0.3,
+          strokeColor: 'black',
+          strokeOpacity: 0.5
       });
 
       //customControl 객체를 이용하기

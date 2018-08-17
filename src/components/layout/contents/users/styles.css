@@ -46,6 +46,7 @@
 
 .form-group {
   margin-bottom: 20px;
+  position: relative;
 }
 
 .form-control:focus {
@@ -60,4 +61,15 @@
   color: white;
   border-radius: 15px;
   font-size: 25px;
+}
+
+.form-error-tag {
+  position: absolute;
+  display: none;
+  top: 0;
+  font-size: 14px;
+  color: #bb5f5a;
+  right: 0;
+  margin-left: 17px;
+  font-weight: 600;
 }

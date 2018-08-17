@@ -12,7 +12,8 @@ if (Notification.permission === 'granted') {
 
 const initialState = {
   notiGrant,
-  socket: null
+  socket: null,
+  location: []
 };
 
 export default function data (state = initialState, action) {
@@ -27,11 +28,11 @@ export default function data (state = initialState, action) {
       return { ...state, notiGrant: false};
 
     case GET_GEO_LOCATION:
-      localStorage.setItem('coord', JSON.stringify({
-        lng: action.payload.coords.longitude,
-        lat: action.payload.coords.latitude
-      }));
-      return {  ...state, location: action.payload };
+      // localStorage.setItem('coord', JSON.stringify({
+      //   lng: action.payload.coords.longitude,
+      //   lat: action.payload.coords.latitude
+      // }));
+      return {  ...state, location: action.payload.coords };
 
     default:
       return state;
