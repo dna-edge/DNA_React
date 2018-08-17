@@ -27,7 +27,7 @@ export function setSocketConnected() {
   let socket = null;
   if(token !== null && token !== undefined) {
     // 1. 해당 포트로 소켓 생성
-    socket = io(SOCKET_API_URL, {transports: ['websocket', 'flashsocket']});
+    socket = io(SOCKET_API_URL, {transports: ['websocket']});
 
     // 2. 현재 정보 세팅
     if (localStorage.getItem('coord')){
