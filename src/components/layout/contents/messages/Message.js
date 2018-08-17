@@ -1,0 +1,36 @@
+import React, { Component } from 'react';
+import Moment from 'react-moment';
+import 'moment/locale/ko';
+
+import styles from './styles.css';
+
+const DayStart = (props) => (
+  <div className="start-date-wrapper">
+    <hr/>
+    <Moment locale="ko" format="YYYY년 MM월 DD일" className="message-start-date">
+        {props.date}
+    </Moment>
+  </div>
+);
+
+const CreatedAt = (props) => (
+  <Moment locale="ko" format="A hh:mm" className="message-created-at">
+      {props.date}
+  </Moment>
+);
+
+const Message = (props) => (
+  <div className={`bubble-wrapper wrapper-${props.sender}`}>
+  {(props.dayStart) ? <DayStart date={props.message.created_at}/> : ''}
+  {(props.sender === 'me') ? <CreatedAt date={props.message.created_at} /> : ''}
+  {(props.start && props.sender === 'you') ? <p className='bubble-title-name'>
+    {props.message.user.nickname}</p> : ''}
+  <div className={`bubble bubble-${props.sender} start-${props.start}`}>
+    <span className="bubble-triangle"/>
+    {props.message.contents}
+  </div>
+  {(props.sender === 'you') ? <CreatedAt date={props.message.created_at} /> : ''}
+  </div>
+);
+
+export default Message;
