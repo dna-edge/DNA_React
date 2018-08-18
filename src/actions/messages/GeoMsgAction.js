@@ -8,7 +8,7 @@ export const NEW_MESSAGE = 'NEW_MESSAGE';
 export const MESSAGE_MAKE_UPDATE = 'MESSAGE_MAKE_UPDATE';
 export const MESSAGE_MAKE_NOT_UPDATE = 'MESSAGE_MAKE_NOT_UPDATE';
 
-const ROOT_URL = `http://${config.SERVER_HOST}:${config.SOCKET_PORT}/api`;
+const ROOT_URL = `${config.SERVER_HOST}:${config.SOCKET_PORT}/api`;
 const token = localStorage.getItem('accessToken');
 
 export function getMessages(page){

@@ -96,7 +96,11 @@ class MessageList extends Component {
   }
 
   getWindowScrollTop() {
-    return document.getElementsByClassName("message-list-chat-wrapper")[0].scrollTop;
+    const item = document.getElementsByClassName("message-list-chat-wrapper");
+    if (item && item.length > 0) {
+      return item[0].scrollTop;
+    }
+    return null;
   }
 
   handleInterval() {

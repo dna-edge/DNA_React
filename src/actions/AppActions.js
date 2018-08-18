@@ -10,8 +10,8 @@ export const SET_SOCKET_CONNECTED = 'SET_SOCKET_CONNECTED';
 // export const FETCH_NEW_MESSAGE = 'FETCH_NEW_MESSAGE';
 // export const GET_NEW_MESSAGE = 'GET_NEW_MESSAGE';
 
-const USER_API_URL = `http://${config.SERVER_HOST}:${config.USER_PORT}/api`;
-const SOCKET_API_URL = `http://${config.SERVER_HOST}:${config.SOCKET_PORT}`;
+const USER_API_URL = `${config.SERVER_HOST}:${config.USER_PORT}/api`;
+const SOCKET_API_URL = `${config.SOCKET_HOST}:${config.SOCKET_PORT}`;
 const token = localStorage.getItem('accessToken');
 //
 // export function getNewMessage(messageIdx) {
@@ -27,7 +27,7 @@ export function setSocketConnected() {
   let socket = null;
   if(token !== null && token !== undefined) {
     // 1. 해당 포트로 소켓 생성
-    socket = io(SOCKET_API_URL, {transports: ['websocket']});
+    socket = io.connect(SOCKET_API_URL, {transports: ['websocket']}, {rejectUnauthorized: false});
 // , {secure: true}
     // 2. 현재 정보 세팅
     if (localStorage.getItem('coord')){

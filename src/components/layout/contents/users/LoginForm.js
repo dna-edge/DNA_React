@@ -53,7 +53,7 @@ class LoginForm extends Component {
     }
 
     if (this.state.isValid) {
-      const API_URL = `http://${config.SERVER_HOST}:${config.USER_PORT}/api/users/login`;
+      const API_URL = `${config.SERVER_HOST}:${config.USER_PORT}/api/users/login`;
 
       axios.post(API_URL, props, {})
         .then(response => {

@@ -1,7 +1,7 @@
 import config from './../config';
 
 const checkError = (action) => {
-  const USER_API = `http://${config.SERVER_HOST}:${config.USER_PORT}/api`;
+  const USER_API = `${config.SERVER_HOST}:${config.USER_PORT}/api`;
 
   // 일단 에러가 참일 경우
   if (action.error && action.payload) {
