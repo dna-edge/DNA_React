@@ -27,8 +27,8 @@ export function setSocketConnected() {
   let socket = null;
   if(token !== null && token !== undefined) {
     // 1. 해당 포트로 소켓 생성
-    socket = io(SOCKET_API_URL, {transports: ['websocket']}, {secure: true});
-
+    socket = io(SOCKET_API_URL, {transports: ['websocket']});
+// , {secure: true}
     // 2. 현재 정보 세팅
     if (localStorage.getItem('coord')){
       const location = JSON.parse(localStorage.getItem('coord'));
