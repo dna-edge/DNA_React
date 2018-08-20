@@ -4,7 +4,7 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
-import config from './../../../../config';
+import config from './../../../config';
 import styles from './styles.css';
 
 // validation용 필드

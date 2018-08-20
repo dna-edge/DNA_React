@@ -1,4 +1,4 @@
-import { GET_MESSAGES, SEND_MESSAGE,
+import { GET_MESSAGES, SEND_MESSAGE, SET_USER_LIST,
   MESSAGE_MAKE_UPDATE, MESSAGE_MAKE_NOT_UPDATE }
   from './../../actions/messages/GeoMsgAction';
 
@@ -7,6 +7,7 @@ import checkError from './../checkError';
 
 const INITIAL_STATE = {
   messages: [],
+  users: []
 }
 
 export default function(state = INITIAL_STATE, action){
@@ -24,6 +25,9 @@ export default function(state = INITIAL_STATE, action){
 
     case MESSAGE_MAKE_NOT_UPDATE:
       return { ...state, update: false}
+
+    case SET_USER_LIST:
+      return {...state, users: action.payload }
 
     default:
       return state;

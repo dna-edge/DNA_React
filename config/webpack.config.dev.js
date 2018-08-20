@@ -100,10 +100,20 @@ module.exports = {
   },
   module: {
     strictExportPresence: true,
-      loaders: [{
-      test: /\.scss$/,
-      loaders: ['style', 'css', 'sass']
-    }],
+    loaders: [
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass']
+      },
+      {
+        test: /\.(?:png|jpg|svg)$/,
+        loader: 'url-loader',
+        query: {
+          // Inline images smaller than 10kb as data URIs
+          limit: 10000
+        }
+      }
+    ],
     rules: [
       // TODO: Disable require.ensure as it's not a standard language feature.
       // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
@@ -263,4 +273,4 @@ module.exports = {
   performance: {
     hints: false,
   },
-};  
+};

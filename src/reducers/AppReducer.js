@@ -1,5 +1,5 @@
 import { SET_WEB_NOTIFY_ENABLE, SET_WEB_NOTIFY_UNABLE,
-          GET_GEO_LOCATION, SET_SOCKET_CONNECTED }
+          SET_GEO_POSITION, SET_SOCKET_CONNECTED }
   from '../actions/AppActions.js';
 
 let notiGrant = '';
@@ -13,7 +13,7 @@ if (Notification.permission === 'granted') {
 const initialState = {
   notiGrant,
   socket: null,
-  location: []
+  position: []
 };
 
 export default function data (state = initialState, action) {
@@ -27,13 +27,10 @@ export default function data (state = initialState, action) {
     case SET_WEB_NOTIFY_UNABLE:
       return { ...state, notiGrant: false};
 
-    case GET_GEO_LOCATION:
-      // localStorage.setItem('coord', JSON.stringify({
-      //   lng: action.payload.coords.longitude,
-      //   lat: action.payload.coords.latitude
-      // }));
-      return {  ...state, location: action.payload.coords };
-
+    case SET_GEO_POSITION:
+      const coords = action.payload.coords;
+      const result = { lat: coords.latitude, lng: coords.longitude };
+      return { ...state, position: result }
     default:
       return state;
   }

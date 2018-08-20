@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import reducers from './../reducers';
 
-import { setSocketConnected, getGeoLocation,
+import { setSocketConnected, setGeoPosition,
   setWebNotifyEnable, setWebNotifyUnable } from './../actions/AppActions';
 
 /* import Components */
@@ -19,8 +19,7 @@ function mapStateToProps(state) {
   return {
     notiGrant: state.app.notiGrant,
     socket: state.app.socket,
-    location: state.app.location,
-    token: state.user.all
+    position: state.app.position
   };
 }
 
@@ -35,9 +34,8 @@ class App extends Component {
 
   // 앱이 시작될 때 Fetch 해오기 시작
   async componentWillMount() {
-    this.props.setSocketConnected();
-
-    await this.props.getGeoLocation();
+    await this.props.setSocketConnected();
+    await this.props.setGeoPosition();
 
     if (!("Notification" in window)) {
       alert("This browser does not support system notifications");
@@ -54,8 +52,10 @@ class App extends Component {
   }
 
   render() {
+    console.log('render');
     let renderLayout;
-    if (localStorage.getItem('accessToken')) {
+
+    if (localStorage.getItem('token')) {
       renderLayout = <AfterLoginLayout />;
     } else {
       renderLayout = <BeforeLoginLayout />;
@@ -70,5 +70,5 @@ class App extends Component {
 }
 
 export default connect(mapStateToProps,
-  { setSocketConnected, getGeoLocation,
+  { setSocketConnected, setGeoPosition,
     setWebNotifyEnable, setWebNotifyUnable })(App);

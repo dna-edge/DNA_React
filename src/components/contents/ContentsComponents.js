@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './styles.css';
 
-import MessageList from './messages/MessageList';
-import SettingForm from './messages/SettingForm';
-import MapComponent from './maps/MapComponent';
+import MessageList from './main/messages/MessageList';
+import UserList from './main/users_list/UserList';
+// import SettingForm from './messages/SettingForm';
+import MapComponent from './main/map/MapComponent';
 
 export const MainComponent = () => (
   <div className='h100'>
@@ -13,5 +14,6 @@ export const MainComponent = () => (
     </div>
 
     <MessageList />
+    <UserList />
   </div>
 );

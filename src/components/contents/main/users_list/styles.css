@@ -1,0 +1,30 @@
+.user-list-wrapper {
+  position: relative;
+  vertical-align: top;
+  display: inline-block;
+  background-color: #FDFDFC;
+  width: 25%;
+  height: 100%;
+}
+
+.avatar-wrapper {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 50%;
+}
+
+.avatar-image{
+  position: absolute;
+  left: -100%;
+  right: -100%;
+  top: -100%;
+  bottom: -100%;
+
+  display: inline;
+  margin: auto;
+  height: 100%;
+  width: auto;
+}

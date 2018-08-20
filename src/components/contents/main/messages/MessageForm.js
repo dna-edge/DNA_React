@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { reduxForm, reset, Field } from 'redux-form';
 import { connect } from 'react-redux';
 
-import { sendMessage, makeUpdate }
+import { sendMessage }
   from './../../../../actions/messages/GeoMsgAction';
 
 import { Button } from 'reactstrap';
@@ -61,7 +61,7 @@ function validate(values){
   return errors;
 }
 
-MessageForm = connect(null, { sendMessage, makeUpdate, reset })(MessageForm);
+MessageForm = connect(null, { sendMessage, reset })(MessageForm);
 
 export default reduxForm({
   form: 'newMessage'

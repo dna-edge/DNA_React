@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import axios from 'axios';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
-import config from './../../../../config';
+import config from './../../../config';
 import styles from './styles.css';
 
 // validation용 필드
@@ -56,15 +58,12 @@ class LoginForm extends Component {
       const API_URL = `${config.SERVER_HOST}:${config.USER_PORT}/api/users/login`;
 
       axios.post(API_URL, props, {})
-        .then(response => {
+        .then((response) => {
           const result = response.data.result;
-          localStorage.setItem("accessToken", result.token.accessToken);
-          localStorage.setItem("refreshToken", result.token.refreshToken);
-          localStorage.setItem("radius", 1000);
+          localStorage.setItem("token", JSON.stringify(result.token));
 
           // 다음으로 프로필을 저장한다.
           localStorage.setItem("profile", JSON.stringify(result.profile));
-
           // 그리고 메인으로 이동한다.
         	this.props.history.push('/');
         })
@@ -83,7 +82,7 @@ class LoginForm extends Component {
   }
 
   componentWillMount() {
-    if (localStorage.getItem("accessToken")) {
+    if (localStorage.getItem("token")) {
       <Redirect to="/" push={ true } />
     }
   }

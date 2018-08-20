@@ -66,7 +66,7 @@
   },
   "scripts": {
     "start": "PORT=9010 node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "HTTPS=true PORT=9010 node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {

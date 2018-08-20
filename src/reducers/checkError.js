@@ -34,8 +34,9 @@ const checkError = (action) => {
         }).then(function(response) {
           // 2. 만약 refresh 토큰마저 유효하지 않으면
           // 모든 토클을 삭제하고 다시 로그인을 해야 한다.
-          localStorage.removeItem("refreshToken");
-          localStorage.removeItem("accessToken");
+          localStorage.removeItem("token");
+          localStorage.removeItem("profile");
+          localStorage.removeItem("position");
         });
       }
     }

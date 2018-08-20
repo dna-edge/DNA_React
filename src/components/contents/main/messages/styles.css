@@ -1,5 +1,5 @@
-/*여기서부터 리스트*/
-.message-list-right-wrapper{
+/*여기서부터 메시지 리스트*/
+.message-list-wrapper{
   position: relative;
   vertical-align: top;
   display: inline-block;
@@ -8,7 +8,7 @@
   height: 100%;
 }
 
-.message-list-right-wrapper > div:first-of-type{
+.message-list-wrapper > div:first-of-type{
   position: relative;
   top: 0;
   left: 0;
@@ -29,7 +29,7 @@
   text-align: center;
 }
 
-.message-list-right-wrapper svg {
+.message-list-wrapper svg {
   margin-top: calc(50% - 130px);
 }
 

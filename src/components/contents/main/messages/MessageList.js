@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
 import { getMessages } from './../../../../actions/messages/GeoMsgAction';
+import { setGeoPosition } from './../../../../actions/AppActions';
 import { fetchDataSuccess, fetchDataFailure } from './../../../../actions/index';
 
 import Message from './Message';
@@ -10,6 +11,14 @@ import MessageForm from './MessageForm';
 
 import styles from './styles.css';
 import config from './../../../../config';
+
+function mapStateToProps(state) {
+  return {
+    socket: state.app.socket,
+    position: state.app.position,
+    messages: state.messages.messages
+  };
+}
 
 class MessageList extends Component {
   constructor(props){
@@ -20,6 +29,7 @@ class MessageList extends Component {
     this.page = 1;
     this.initial = true;
     this.fetching = false;
+    this.profile = JSON.parse(localStorage.getItem("profile"));
 
     this.state = {
       position: null,
@@ -33,15 +43,16 @@ class MessageList extends Component {
     // this.hasToUpdate = this.hasToUpdate.bind(this);
   }
 
-  componentWillMount(){
-    if (localStorage.getItem('coord')) {
-      this.props.getMessages(1);
+  componentWillMount() {
+    let position;
+
+    if (this.props.position === {} || this.props.position.length === 0) {
+      position = JSON.parse(localStorage.getItem("position"));
+    } else {
+      position = this.props.position;
     }
-    // 5. 서버로부터 새 메시지 이벤트를 받았을 경우에 화면에 새로 렌더링해준다.
-    this.props.socket.on('new_msg', (response) => {
-      this.setState({messages: [response.result, ...this.state.messages]});
-      this.scrollToBottom();
-    });
+
+    this.props.getMessages(position, this.profile.radius, 1);
 
     const INTERVAL = 1000;
     this.intervalID = setInterval(this.handleInterval, INTERVAL);
@@ -55,9 +66,6 @@ class MessageList extends Component {
     this.intervalID = null;
   }
 
-  componentDidMount() {
-  }
-
   componentWillReceiveProps(nextProps){
     if (this.page === 1) {
       this.setState({ messages: nextProps.messages });
@@ -66,6 +74,12 @@ class MessageList extends Component {
         this.setState({ messages: [...this.state.messages, ...nextProps.messages]});
       }
     }
+
+    // 5. 서버로부터 새 메시지 이벤트를 받았을 경우에 화면에 새로 렌더링해준다.
+    this.props.socket.on('new_msg', (response) => {
+      this.setState({messages: [response.result, ...this.state.messages]});
+      this.scrollToBottom();
+    });
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -74,16 +88,16 @@ class MessageList extends Component {
       this.scrollToBottom();
       this.initial = false;
       this.beforeHeight = this.objDiv.scrollHeight;
-      window.$(".message-list-right-wrapper > div:first-of-type").hide();
+      window.$(".message-list-wrapper > div:first-of-type").hide();
     }
 
     if (!this.fetching && this.state.position !== null && this.state.position <= 0) {
       if (prevProps.messages && config.PAGINATION_COUNT === prevProps.messages.length) {
           this.beforeHeight = this.objDiv.scrollHeight;
           this.page++;
-          this.props.getMessages(this.page);
+          this.props.getMessages(this.props.position, this.profile.radius, this.page);
           this.fetching = true;
-          window.$(".message-list-right-wrapper > div:first-of-type").show();
+          window.$(".message-list-wrapper > div:first-of-type").show();
       }
     }
 
@@ -91,16 +105,8 @@ class MessageList extends Component {
       const newHeight = this.objDiv.scrollHeight - this.beforeHeight;
       this.objDiv.scrollTop = newHeight;
       this.fetching = false;
-      window.$(".message-list-right-wrapper > div:first-of-type").hide();
+      window.$(".message-list-wrapper > div:first-of-type").hide();
     }
-  }
-
-  getWindowScrollTop() {
-    const item = document.getElementsByClassName("message-list-chat-wrapper");
-    if (item && item.length > 0) {
-      return item[0].scrollTop;
-    }
-    return null;
   }
 
   handleInterval() {
@@ -120,6 +126,14 @@ class MessageList extends Component {
     }
   }
 
+  getWindowScrollTop() {
+    const item = document.getElementsByClassName("message-list-chat-wrapper");
+    if (item && item.length > 0) {
+      return item[0].scrollTop;
+    }
+    return null;
+  }
+
   scrollToBottom(){
     if (this.objDiv) {
       this.objDiv.scrollTop = this.objDiv.scrollHeight - this.objDiv.clientHeight;
@@ -131,7 +145,7 @@ class MessageList extends Component {
     let beforeTime = -1;
     let tempIdx, tempTime;
 
-    const currentUser = JSON.parse(localStorage.getItem('profile')).idx;
+    const currentUser = this.profile.idx;
 
     return this.state.messages.slice(0).reverse()
       .map((message) => {
@@ -161,7 +175,7 @@ class MessageList extends Component {
   render() {
     if(this.state.messages === undefined || this.state.messages == []) {
       return (
-        <div className='message-list-right-wrapper'>
+        <div className='message-list-wrapper'>
           <Loader
              type="Oval"
              color="#8a78b0"
@@ -174,7 +188,7 @@ class MessageList extends Component {
 
     else {
       return (
-        <div className="message-list-right-wrapper">
+        <div className="message-list-wrapper">
           <Loader
              type="Oval"
              color="#8a78b0"
@@ -190,22 +204,15 @@ class MessageList extends Component {
     }
   }
 }
-
-function mapStateToProps(state){
-  return {
-    socket: state.app.socket,
-    messages: state.messages.messages
-    // newMessage: state.app.newMessage,
-    // newMessageCount: state.app.newMessageCount
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    getMessages: (page) => {
-      dispatch(getMessages(page)).then((response) => {
+    getMessages: (position, radius, page) => {
+      dispatch(getMessages(position, radius, page)).then((response) => {
         dispatch(fetchDataSuccess(response.payload.data));
       });
+    },
+    setGeoPosition: () => {
+      dispatch(setGeoPosition());
     }
   }
 }

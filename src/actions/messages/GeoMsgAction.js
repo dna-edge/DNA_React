@@ -5,17 +5,19 @@ import config from './../../config.js';
 export const GET_MESSAGES = 'GET_MESSAGES';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
+export const SET_USER_LIST = 'SET_USER_LIST';
 export const MESSAGE_MAKE_UPDATE = 'MESSAGE_MAKE_UPDATE';
 export const MESSAGE_MAKE_NOT_UPDATE = 'MESSAGE_MAKE_NOT_UPDATE';
 
 const ROOT_URL = `${config.SERVER_HOST}:${config.SOCKET_PORT}/api`;
-const token = localStorage.getItem('accessToken');
+let token = '';
+if (JSON.parse(localStorage.getItem('token'))) {
+  token = JSON.parse(localStorage.getItem('token')).accessToken;
+}
 
-export function getMessages(page){
-  const location = JSON.parse(localStorage.getItem('coord'));
-
+export function getMessages(coords, radius, page){
   const request = axios.post(`${ROOT_URL}/message/${page}`,
-    { lng: location.lng, lat: location.lat, radius: localStorage.getItem("radius") },
+    { lng: coords.lng, lat: coords.lat, radius },
     { headers: { 'token' : token } });
 
   return {
@@ -29,8 +31,8 @@ export function sendMessage(values) {
     const state = getState();
 
     const messageData = {
-      lng: state.app.location.longitude,
-      lat: state.app.location.latitude,
+      lng: state.app.position.longitude,
+      lat: state.app.position.latitude,
       contents: values.contents
     };
 
@@ -44,21 +46,15 @@ export function sendMessage(values) {
 }
 
 export function newMessage(value) {
-  console.log(value);
   return {
     type: NEW_MESSAGE,
     payload: value
   }
 }
 
-export function makeUpdate(){
+export function setUserList(value) {
   return {
-    type: MESSAGE_MAKE_UPDATE
-  }
-}
-
-export function makeNotUpdate(){
-  return {
-    type: MESSAGE_MAKE_NOT_UPDATE
+    type: SET_USER_LIST,
+    payload: value
   }
 }
