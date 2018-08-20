@@ -1,4 +1,6 @@
 .geo-chat-map{
+  display: inline-block;
+  width: 25%;
   height: 100%;
 }
 

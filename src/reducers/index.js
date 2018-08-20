@@ -2,12 +2,14 @@ import { createStore, combineReducers } from 'redux'
 import { reducer as formReducer } from 'redux-form'
 
 import AppReducer from './AppReducer';
-import MessageReducer from './messages/GeoMsgReducer';
+import GeoMsgReducer from './messages/GeoMsgReducer';
+import UserReducer from './user/UserReducer';
 
 const rootReducer = combineReducers({
   app: AppReducer,
   form: formReducer,
-  messages: MessageReducer
+  user: UserReducer,
+  messages: GeoMsgReducer
 });
 
 export default rootReducer;

@@ -40,15 +40,11 @@ export const NavBeforeComponent = () => (
         <NavLink className='nav-main-item' href="/features"
           style={{left: '75px'}}>
           Features</NavLink>
-        <NavLink className='nav-main-item' href="/posts"
-          style={{left: '180px'}}>
-          Posts</NavLink>
         <Nav className='nav-items'>
           <Route exact path="/" component={LoginButton} />
           <Route path="/signup" component={LoginButton} />
           <Route path="/login" component={SignupButton} />
           <Route path="/features" component={LoginButton} />
-          <Route path="/posts" component={LoginButton} />
         </Nav>
       </Navbar>
     </div>
@@ -75,12 +71,10 @@ export class NavAfterComponent extends Component {
       <div className='nav-bar-wrapper'>
         <Navbar className='nav-bar'>
           <a href='/' className='nav-logo'><img className='nav-logo-img' src={imagePath} /></a>
-          <NavLink className='nav-main-item' href="/posts"
-            style={{left: '460px'}}>
-            Posts</NavLink>
           <div className='nav-search'>
             <Input type="text" name="search" className="search-input"
                    placeholder="검색어를 입력해주세요." />
+            <button><span className="ti-search"></span></button>
           </div>
           <Nav className='nav-items'>
             <NavItem>

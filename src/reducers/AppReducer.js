@@ -13,7 +13,7 @@ if (Notification.permission === 'granted') {
 const initialState = {
   notiGrant,
   socket: null,
-  position: []
+  position: null
 };
 
 export default function data (state = initialState, action) {
@@ -31,6 +31,7 @@ export default function data (state = initialState, action) {
       const coords = action.payload.coords;
       const result = { lat: coords.latitude, lng: coords.longitude };
       return { ...state, position: result }
+
     default:
       return state;
   }

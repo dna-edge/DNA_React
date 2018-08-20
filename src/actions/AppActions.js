@@ -12,6 +12,7 @@ const USER_API_URL = `${config.SERVER_HOST}:${config.USER_PORT}/api`;
 const SOCKET_API_URL = `${config.SOCKET_HOST}:${config.SOCKET_PORT}`;
 
 let token;
+let initial = true;
 if (localStorage.getItem('token')) {
   token = JSON.parse(localStorage.getItem('token')).accessToken;
 }
@@ -50,7 +51,6 @@ export function setGeoPosition() {
 
     geolocation.getCurrentPosition((coords) => {
       const result = { lat: coords.coords.latitude, lng: coords.coords.longitude };
-      localStorage.setItem("position", JSON.stringify(result));
 
       resolve(coords);
     }, () => {

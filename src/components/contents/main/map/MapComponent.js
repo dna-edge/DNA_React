@@ -8,21 +8,30 @@ import styles from './styles.css';
 
 function mapStateToProps(state) {
   return {
-    position: state.app.position
+    position: state.app.position,
+    profile: state.user.profile
   };
 }
 
 class MapComponent extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      initial: true
+    };
+  }
+
   componentDidUpdate() {
     const position = this.props.position;
-    const radius = JSON.parse(localStorage.getItem("profile")).radius;
+    const radius = this.props.profile.radius;
 
     const CURRENT_POSITION = new window.naver.maps.LatLng(position.lat, position.lng);
 
     var locationBtnHtml = `<a href="" class="btn_mylct"><img class="map-home-button" src="${homePng}"/></a>`;
     var map = new window.naver.maps.Map('map', {
         center: CURRENT_POSITION, //지도의 초기 중심 좌표
-        zoom: 10, //지도의 초기 줌 레벨
+        zoom: 9, //지도의 초기 줌 레벨
         minZoom: 1, //지도의 최소 줌 레벨
         zoomControl: true, //줌 컨트롤의 표시 여부
         zoomControlOptions: { //줌 컨트롤의 옵션
@@ -56,10 +65,17 @@ class MapComponent extends Component {
         map.setCenter(new window.naver.maps.LatLng(position.lat, position.lng));
     });
     customControl.setMap(map);
-
   }
 
   render() {
+    // 먼저 렌더되어 map을 id로 가진 div가 생성된 후에,
+    // componentDidUpdate() 함수가 호출되어 값들을 세팅해줘야 합니다.
+    // 때문에 state 값을 바꿔주어 해당 함수를 호출시킵니다.
+
+    if (this.state.initial) {
+      this.setState({initial: false});
+    }
+
     return (
       <div id="map" className="geo-chat-map" />
     );

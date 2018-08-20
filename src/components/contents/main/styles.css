@@ -8,4 +8,11 @@
 .main-left-wrapper {
   display: inline-block;
   width: 25%;
+  vertical-align: top;
+}
+
+.main-right-wrapper {
+  display: inline-block;
+  width: 75%;
+  vertical-align: top;
 }

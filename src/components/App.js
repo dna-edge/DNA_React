@@ -17,9 +17,7 @@ window.$ = window.jQuery = jQuery;
 
 function mapStateToProps(state) {
   return {
-    notiGrant: state.app.notiGrant,
-    socket: state.app.socket,
-    position: state.app.position
+    notiGrant: state.app.notiGrant
   };
 }
 
@@ -33,9 +31,9 @@ class App extends Component {
   }
 
   // 앱이 시작될 때 Fetch 해오기 시작
-  async componentWillMount() {
-    await this.props.setSocketConnected();
-    await this.props.setGeoPosition();
+  componentWillMount() {
+    this.props.setSocketConnected();
+    this.props.setGeoPosition();
 
     if (!("Notification" in window)) {
       alert("This browser does not support system notifications");
@@ -52,7 +50,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('render');
     let renderLayout;
 
     if (localStorage.getItem('token')) {

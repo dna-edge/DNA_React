@@ -23,8 +23,20 @@ const Message = (props) => (
   <div className={`bubble-wrapper wrapper-${props.sender}`}>
   {(props.dayStart) ? <DayStart date={props.message.created_at}/> : ''}
   {(props.sender === 'me') ? <CreatedAt date={props.message.created_at} /> : ''}
-  {(props.start && props.sender === 'you') ? <p className='bubble-title-name'>
-    {props.message.user.nickname}</p> : ''}
+  {(props.start && props.sender === 'you')
+    ?
+    <div className="bubble-profile-wrapper">
+      <div className="avatar-wrapper">
+        <img className="avatar-image"
+          src={(props.message.user.avatar) !== null ?
+            props.message.user.avatar :
+            "/../public/img/avatar.png"}/>
+      </div>
+      <p className='bubble-title-name'>
+        {props.message.user.nickname}
+      </p>
+    </div>
+    : ''}
   <div className={`bubble bubble-${props.sender} start-${props.start}`}>
     <span className="bubble-triangle"/>
     {props.message.contents}

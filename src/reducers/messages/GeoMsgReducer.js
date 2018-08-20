@@ -6,14 +6,14 @@ import { FETCH_DATA_SUCCESS } from './../../actions/index';
 import checkError from './../checkError';
 
 const INITIAL_STATE = {
-  messages: [],
-  users: []
+  messages: null,
+  users: null
 }
 
 export default function(state = INITIAL_STATE, action){
   checkError(action);
 
-  switch(action.type){
+  switch(action.type) {
     case FETCH_DATA_SUCCESS:// return data and set fetching = false
       return { ...state, messages: action.payload.result };
 

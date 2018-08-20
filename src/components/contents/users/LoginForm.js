@@ -6,6 +6,8 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
+import { getProfile } from './../../../actions/user/UserAction';
+
 import config from './../../../config';
 import styles from './styles.css';
 
@@ -61,9 +63,11 @@ class LoginForm extends Component {
         .then((response) => {
           const result = response.data.result;
           localStorage.setItem("token", JSON.stringify(result.token));
+          localStorage.setItem("index", result.profile.idx);
 
           // 다음으로 프로필을 저장한다.
-          localStorage.setItem("profile", JSON.stringify(result.profile));
+          this.props.getProfile(result.profile.idx);
+
           // 그리고 메인으로 이동한다.
         	this.props.history.push('/');
         })
@@ -120,6 +124,8 @@ class LoginForm extends Component {
     );
   };
 };
+
+LoginForm = connect(null, { getProfile })(LoginForm);
 
 export default reduxForm({
   form: 'login'
