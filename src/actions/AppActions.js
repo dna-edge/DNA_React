@@ -3,10 +3,10 @@ import io from 'socket.io-client';
 
 import config from './../config.js';
 
-export const SET_WEB_NOTIFY_ENABLE = 'SET_WEB_NOTIFY_ENABLE';
-export const SET_WEB_NOTIFY_UNABLE = 'SET_WEB_NOTIFY_UNABLE';
 export const SET_GEO_POSITION = 'SET_GEO_POSITION';
 export const SET_SOCKET_CONNECTED = 'SET_SOCKET_CONNECTED';
+export const SET_WEB_NOTIFY_ENABLE = 'SET_WEB_NOTIFY_ENABLE';
+export const SET_WEB_NOTIFY_UNABLE = 'SET_WEB_NOTIFY_UNABLE';
 
 const USER_API_URL = `${config.SERVER_HOST}:${config.USER_PORT}/api`;
 const SOCKET_API_URL = `${config.SOCKET_HOST}:${config.SOCKET_PORT}`;
@@ -29,15 +29,28 @@ export function setSocketConnected() {
   };
 }
 
-export function setWebNotifyEnable() {
+export function handlePermissionGranted(){
+  console.log('Permission Granted');
+
   return {
-    type: SET_WEB_NOTIFY_ENABLE
+    type: SET_WEB_NOTIFY_ENABLE,
+    payload: false
   };
 }
+export function handlePermissionDenied(){
+  console.log('Permission Denied');
 
-export function setWebNotifyUnable() {
   return {
-    type: SET_WEB_NOTIFY_UNABLE
+    type: SET_WEB_NOTIFY_UNABLE,
+    payload: true
+  };
+}
+export function handleNotSupported(){
+  console.log('Web Notification not Supported');
+
+  return {
+    type: SET_WEB_NOTIFY_UNABLE,
+    payload: true
   };
 }
 

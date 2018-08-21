@@ -3,6 +3,8 @@ import Moment from 'react-moment';
 import 'moment/locale/ko';
 
 import styles from './styles.css';
+import deco from './../../../../../public/images/deco.png';
+import megaphone from './../../../../../public/images/megaphone.png';
 
 const DayStart = (props) => (
   <div className="start-date-wrapper">
@@ -37,9 +39,12 @@ const Message = (props) => (
       </p>
     </div>
     : ''}
-  <div className={`bubble bubble-${props.sender} start-${props.start}`}>
-    <span className="bubble-triangle"/>
-    {props.message.contents}
+  <div className={`bubble bubble-${(props.message.type === "LoudSpeaker")
+    ? "speaker" : ""} bubble-${props.sender } start-${props.start}`}>
+      <span className="bubble-triangle"/>
+      {props.message.contents}
+      {(props.message.type === "LoudSpeaker")
+        ? (<div><img src={megaphone} /><img src={deco}/></div>) : ""}
   </div>
   {(props.sender === 'you') ? <CreatedAt date={props.message.created_at} /> : ''}
   </div>

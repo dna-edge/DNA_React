@@ -46,7 +46,7 @@ class UserList extends Component {
   renderUsers() {
     return this.props.users
       .map((user) => {
-        if(this.props.profile.idx !== user.idx) {
+        if(this.props.profile.idx !== parseInt(user.idx)) {
           return (
             <div className="user-list-item">
               <div className="avatar-wrapper">

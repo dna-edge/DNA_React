@@ -26,18 +26,20 @@ export function getMessages(coords, radius, page){
   }
 }
 
-export function sendMessage(values) {
+export function sendMessage(values, type) {
   return (dispatch, getState) => {
     const state = getState();
+    const radius = state.user.profile.radius;
 
     const messageData = {
       lng: state.app.position.lng,
       lat: state.app.position.lat,
-      contents: values.contents
+      contents: values.contents,
+      type
     };
 
     // axios로 직접 통신하지 않고 app에 직접 연결된 socket을 통해 send_message 이벤트를 발생시킨다.
-    state.app.socket.emit("save_msg", token, messageData);
+    state.app.socket.emit("save_msg", token, messageData, radius);
 
     dispatch({
       type: SEND_MESSAGE

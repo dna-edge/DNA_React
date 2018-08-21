@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import Notification from 'react-web-notification';
+import { ToastContainer, Slide } from "react-toastify";
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 /* for Redux */
 import { connect } from 'react-redux';
 import reducers from './../reducers';
 
-import { setSocketConnected, setGeoPosition,
-  setWebNotifyEnable, setWebNotifyUnable } from './../actions/AppActions';
+import { setSocketConnected, setGeoPosition } from './../actions/AppActions';
 
 /* import Components */
 import BeforeLoginLayout from './layout/BeforeLoginLayout';
@@ -14,12 +15,6 @@ import AfterLoginLayout from './layout/AfterLoginLayout';
 
 import jQuery from "jquery";
 window.$ = window.jQuery = jQuery;
-
-function mapStateToProps(state) {
-  return {
-    notiGrant: state.app.notiGrant
-  };
-}
 
 class App extends Component {
   constructor(props) {
@@ -34,19 +29,6 @@ class App extends Component {
   componentWillMount() {
     this.props.setSocketConnected();
     this.props.setGeoPosition();
-
-    if (!("Notification" in window)) {
-      alert("This browser does not support system notifications");
-      this.props.setWebNotifyUnable();
-    } else if (!this.props.notiGrant) {
-      Notification.requestPermission((permission) => {
-        if (permission === "granted") {
-          this.props.setWebNotifyEnable();
-        } else {
-          this.props.setWebNotifyUnable();
-        }
-      });
-    }
   }
 
   render() {
@@ -60,12 +42,16 @@ class App extends Component {
 
     return (
       <BrowserRouter>
+        <div className="h100">
         { renderLayout }
+        <ToastContainer transition={Slide} position="top-right" rtl={false}
+          autoClose={2000} hideProgressBar newestOnTop closeOnClick
+          pauseOnVisibilityChange draggable={false} pauseOnHover />
+        </div>
       </BrowserRouter>
     );
   }
 }
 
-export default connect(mapStateToProps,
-  { setSocketConnected, setGeoPosition,
-    setWebNotifyEnable, setWebNotifyUnable })(App);
+export default connect(null,
+  { setSocketConnected, setGeoPosition })(App);

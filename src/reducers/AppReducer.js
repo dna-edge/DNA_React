@@ -2,16 +2,16 @@ import { SET_WEB_NOTIFY_ENABLE, SET_WEB_NOTIFY_UNABLE,
           SET_GEO_POSITION, SET_SOCKET_CONNECTED }
   from '../actions/AppActions.js';
 
-let notiGrant = '';
+let ignore = '';
 
 if (Notification.permission === 'granted') {
-  notiGrant = true;
+  ignore = true;
 } else {
-  notiGrant = false;
+  ignore = false;
 }
 
 const initialState = {
-  notiGrant,
+  ignore,
   socket: null,
   position: null
 };
@@ -22,10 +22,10 @@ export default function data (state = initialState, action) {
       return { ...state, socket: action.payload };
 
     case SET_WEB_NOTIFY_ENABLE:
-      return { ...state, notiGrant: true};
+      return { ...state, ignore: false};
 
     case SET_WEB_NOTIFY_UNABLE:
-      return { ...state, notiGrant: false};
+      return { ...state, ignore: true};
 
     case SET_GEO_POSITION:
       const coords = action.payload.coords;

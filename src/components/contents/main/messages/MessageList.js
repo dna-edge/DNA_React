@@ -51,7 +51,7 @@ class MessageList extends Component {
     // 1초마다 휠의 위치를 측정합니다.
     const INTERVAL = 1000;
     this.intervalID = setInterval(this.handleInterval, INTERVAL);
-    
+
     // 5. 서버로부터 새 메시지 이벤트를 받았을 경우에 화면에 새로 렌더링해준다.
     this.props.socket.on('new_msg', (response) => {
       this.setState({messages: [response.result, ...this.state.messages]});
@@ -175,6 +175,7 @@ class MessageList extends Component {
       return (
         <div className='message-list-wrapper'>
           <Loader type="Oval" color="#8a78b0" height="130" width="130" />
+          <div className="message-list-chat-wrapper" />
         </div>
       );
     } else {
