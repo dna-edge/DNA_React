@@ -3,8 +3,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 /* import Components */
 import { NavBeforeComponent } from './nav/NavComponents';
-import LoginForm from './../contents/users/LoginForm';
-import RegisterForm from './../contents/users/RegisterForm';
+import LoginForm from './../contents/user/LoginForm';
+import RegisterForm from './../contents/user/RegisterForm';
 
 const BeforeLoginLayout = () => (
   <div className="h100">

@@ -7,8 +7,8 @@ import { Button } from 'reactstrap';
 import { reduxForm, reset, Field } from 'redux-form';
 import { connect } from 'react-redux';
 
-import { sendMessage } from './../../../../actions/messages/GeoMsgAction';
-import { getProfile } from './../../../../actions/user/UserAction';
+import { sendMessage } from './../../../actions/messages/GeoMsgAction';
+import { getProfile } from './../../../actions/user/UserAction';
 
 import Message from './Message';
 
@@ -81,14 +81,17 @@ class MessageForm extends Component{
       <form className="message-write" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <Field name="contents" component={renderInput} />
 
-        <button type="button" onClick={this.setSpeaker} data-tip="React-tooltip" className="speaker-button" >
-          <FontAwesome className="message-write-fa" name="volume-up" />
-        </button>
-        <ReactTooltip className='customeTheme' place="top" type="warning" effect="solid">
-          <p>확성기로 주변 접속자에게</p>
-          <p>푸시 메시지를 보낼 수 있습니다</p>
-          <p>(<strong>100포인트</strong>가 필요합니다)</p>
-        </ReactTooltip>
+        { this.props.type === "main" ?
+        <div>
+          <button type="button" onClick={this.setSpeaker} data-tip="React-tooltip" className="speaker-button" >
+            <FontAwesome className="message-write-fa" name="volume-up" />
+          </button>
+          <ReactTooltip className='customeTheme' place="top" type="warning" effect="solid">
+            <p>확성기로 주변 접속자에게</p>
+            <p>푸시 메시지를 보낼 수 있습니다</p>
+            <p>(<strong>100포인트</strong>가 필요합니다)</p>
+          </ReactTooltip>
+        </div> : "" }
 
         <button className="msg-form-button" type="submit">
           <span className="ti-location-arrow"></span>

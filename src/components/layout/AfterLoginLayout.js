@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Notification from 'react-web-notification';
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter, Route, Redirect, withRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -13,6 +13,7 @@ import { getProfile } from './../../actions/user/UserAction';
 /* import Components */
 import { NavAfterComponent } from './nav/NavComponents';
 import MainComponent from './../contents/main/MainComponent';
+import DirectComponent from './../contents/direct/DirectComponent';
 
 import soundMp3 from './../../../public/sounds/sound.mp3';
 import soundOgg from './../../../public/sounds/sound.ogg';
@@ -94,7 +95,7 @@ class MyComponent extends Component {
         if (path === "/") {           // 현재 path에 따라서 요구하는 정보가 달라야 합니다.
           type = "geo";               // /(전체 채팅)일 경우에는 위치 기준 주변 접속자 리스트를,
         } else if (path === "/dm"){   // /dm (다이렉트 메시지)일 경우에는 친구 접속자 리스트를 받습니다.
-          type = "dm";
+          type = "direct";
         }
 
         socket.emit('update', type, info);  // 업데이트된 정보를 소켓에 전달해 저장합니다.
@@ -118,7 +119,10 @@ class MyComponent extends Component {
         <NavAfterComponent />
         <BrowserRouter>
           <div className="h100calc">
+            <Switch>
               <Route exact path="/" component={MainComponent} />
+              <Route exact path="/dm/:idx?" component={DirectComponent} />
+            </Switch>
           </div>
         </BrowserRouter>
         <Notification

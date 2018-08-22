@@ -82,7 +82,7 @@ export class NavAfterComponent extends Component {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="#"><FontAwesome className='nav-item-fa' name='comment' />
+              <NavLink href="/dm"><FontAwesome className='nav-item-fa' name='comment' />
               </NavLink>
             </NavItem>
             <NavItem>

@@ -5,12 +5,13 @@ import FontAwesome from 'react-fontawesome';
 
 import { connect } from 'react-redux';
 
-import config from './../../../../config';
+import config from './../../../config';
 import styles from './styles.css';
 
 function mapStateToProps(state) {
   return {
-    users: state.messages.users,
+    users: state.main.users,
+    friends: state.direct.users,
     profile: state.user.profile
   };
 }
@@ -33,7 +34,7 @@ const Profile = (props) => (
         <p className="user-my-profile-id">{props.profile.id}</p>
       </div>
     </div>
-    <Dotdotdot clamp={3}>
+    <Dotdotdot clamp={2}>
       <p className="user-my-profile-info">{props.profile.description}</p>
     </Dotdotdot>
   </div>

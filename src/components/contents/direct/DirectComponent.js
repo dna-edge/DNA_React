@@ -3,30 +3,27 @@ import { connect } from 'react-redux';
 
 import styles from './../styles.css';
 
+import ConversationList from './Conversations/ConversationList';
 import MessageList from './../../common/message/MessageList';
 import UserList from './../../common/ccu/UserList';
-// import SettingForm from './messages/SettingForm';
-import MapComponent from './map/MapComponent';
 
 function mapStateToProps(state) {
   return {
-    position: state.app.position,
     profile: state.user.profile
   };
 }
 
-export class MainComponent extends Component {
+export class DirectComponent extends Component {
   render() {
     let contents;
 
-    if (this.props.position !== null && this.props.profile !== null) {
+    if (this.props.profile !== null) {
       // 필요한 정보가 모두 로드되고 난 후에 렌더링 해줘야 한다.
       contents = (
         <div className='h100'>
-          {/*<SettingForm />*/}
-          <MapComponent />
-          <MessageList type="main" />
-          <UserList type="main" />
+          <ConversationList />
+          <MessageList type="direct" />
+          <UserList type="direct" />
         </div>
       );
     }
@@ -39,4 +36,4 @@ export class MainComponent extends Component {
   }
 }
 
-export default connect(mapStateToProps, null)(MainComponent);
+export default connect(mapStateToProps, null)(DirectComponent);

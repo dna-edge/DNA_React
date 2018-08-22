@@ -2,24 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
-import { getMessages } from './../../../../actions/messages/GeoMsgAction';
-import { setGeoPosition } from './../../../../actions/AppActions';
-import { fetchDataSuccess, fetchDataFailure } from './../../../../actions/index';
+import { getMessages } from './../../../actions/messages/GeoMsgAction';
+import { setGeoPosition } from './../../../actions/AppActions';
+import { fetchDataSuccess, fetchDataFailure } from './../../../actions/index';
 
 import Message from './Message';
 import MessageForm from './MessageForm';
 
 import styles from './styles.css';
-import config from './../../../../config';
+import config from './../../../config';
 
-import imagePath from './../../../../../public/images/empty.png';
+import imagePath from './../../../../public/images/empty.png';
 
 function mapStateToProps(state) {
   return {
     socket: state.app.socket,
     position: state.app.position,
     profile: state.user.profile,
-    messages: state.messages.messages
+    messages: state.main.messages,
+    directs: state.direct.messages
   };
 }
 
@@ -46,7 +47,12 @@ class MessageList extends Component {
   }
 
   componentWillMount() {
-    this.props.getMessages(this.props.position, this.props.profile.radius, 1);
+    if (this.props.type === "main") {
+      this.props.getMessages(this.props.position, this.props.profile.radius, this.page);
+    } else if (this.props.type === "direct") {
+      this.page = -1;
+      this.setState({"messages": -1});
+    }
 
     // 1초마다 휠의 위치를 측정합니다.
     const INTERVAL = 1000;
@@ -93,7 +99,12 @@ class MessageList extends Component {
       if (prevProps.messages && config.PAGINATION_COUNT === prevProps.messages.length) {
           this.beforeHeight = this.objDiv.scrollHeight;
           this.page++;
-          this.props.getMessages(this.props.position, this.props.profile.radius, this.page);
+
+          if (this.props.type === "main") {
+            this.props.getMessages(this.props.position, this.props.profile.radius, this.page);
+          } else if (this.props.type === "direct"){
+
+          }
           this.fetching = true;
           window.$(".message-list-wrapper > div:first-of-type").show();
       }
@@ -171,7 +182,8 @@ class MessageList extends Component {
   }
 
   render() {
-    if (!this.state.messages) {
+    console.log(this.props);
+    if (!this.state.messages || this.state.messages === null) {
       return (
         <div className='message-list-wrapper'>
           <Loader type="Oval" color="#8a78b0" height="130" width="130" />
@@ -189,7 +201,11 @@ class MessageList extends Component {
           </div>
         );
       } else {
-        contents = this.renderMessages();
+        if (this.state.messages === -1){
+          contents = "zz";
+        } else {
+          contents = this.renderMessages();
+        }
       }
       return (
         <div className="message-list-wrapper">
@@ -197,7 +213,7 @@ class MessageList extends Component {
           <div className="message-list-chat-wrapper">
             {contents}
           </div>
-          <MessageForm/>
+          <MessageForm type={ this.props.type } />
         </div>
       );
     }
