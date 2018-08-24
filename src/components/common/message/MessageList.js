@@ -182,7 +182,6 @@ class MessageList extends Component {
   }
 
   render() {
-    console.log(this.props);
     if (!this.state.messages || this.state.messages === null) {
       return (
         <div className='message-list-wrapper'>

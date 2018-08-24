@@ -121,7 +121,7 @@ class MyComponent extends Component {
           <div className="h100calc">
             <Switch>
               <Route exact path="/" component={MainComponent} />
-              <Route exact path="/dm/:idx?" component={DirectComponent} />
+              <Route path="/dm/idx" component={DirectComponent} />
             </Switch>
           </div>
         </BrowserRouter>
