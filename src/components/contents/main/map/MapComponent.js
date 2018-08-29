@@ -23,6 +23,11 @@ class MapComponent extends Component {
   }
 
   componentDidUpdate() {
+
+    if (this.state.initial) {
+      this.setState({initial: false});
+    }
+
     const position = this.props.position;
     const radius = this.props.profile.radius;
 
@@ -71,10 +76,6 @@ class MapComponent extends Component {
     // 먼저 렌더되어 map을 id로 가진 div가 생성된 후에,
     // componentDidUpdate() 함수가 호출되어 값들을 세팅해줘야 합니다.
     // 때문에 state 값을 바꿔주어 해당 함수를 호출시킵니다.
-
-    if (this.state.initial) {
-      this.setState({initial: false});
-    }
 
     return (
       <div id="map" className="geo-chat-map" />

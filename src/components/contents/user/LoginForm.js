@@ -72,6 +72,7 @@ class LoginForm extends Component {
         	this.props.history.push('/');
         })
         .catch(error => {
+          console.dir(error);
           if (error.response.data.code === 23400) {
             window.$('.field-ID').css("border", "red solid 1px");
             window.$('.tag-ID').text('존재하지 않는 ID입니다.');

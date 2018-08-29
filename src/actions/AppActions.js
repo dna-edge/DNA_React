@@ -18,7 +18,9 @@ if (localStorage.getItem('token')) {
 }
 
 export function setSocketConnected() {
-  let socket = null;
+  let socket = null;    console.log(SOCKET_API_URL);
+    
+
   if(token !== null && token !== undefined) {
     socket = io.connect(SOCKET_API_URL, {transports: ['websocket']}, {rejectUnauthorized: false});
   }
