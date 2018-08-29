@@ -59,7 +59,17 @@ class LoginForm extends Component {
     if (this.state.isValid) {
       const API_URL = `${config.SERVER_HOST}:${config.USER_PORT}/api/users/login`;
 
-      axios.post(API_URL, props, {})
+      axios({
+        method: 'post',
+        url: API_URL, 
+        withCredentials: true,
+        crossdomain: true,
+        data: props,
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+          }
+        })
         .then((response) => {
           const result = response.data.result;
           localStorage.setItem("token", JSON.stringify(result.token));
