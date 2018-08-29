@@ -1,6 +1,4 @@
-import { GET_MESSAGES, SEND_MESSAGE, SET_USER_LIST,
-  MESSAGE_MAKE_UPDATE, MESSAGE_MAKE_NOT_UPDATE }
-  from './../../actions/messages/GeoMsgAction';
+import { GET_MESSAGES, SET_USER_LIST } from './../../actions/messages/GeoMsgAction';
 
 import { FETCH_DATA_SUCCESS } from './../../actions/index';
 import checkError from './../checkError';
@@ -19,12 +17,6 @@ export default function(state = INITIAL_STATE, action){
 
     case GET_MESSAGES:
       return { ...state, messages: action.payload.result };
-
-    case MESSAGE_MAKE_UPDATE:
-      return { ...state, update: true}
-
-    case MESSAGE_MAKE_NOT_UPDATE:
-      return { ...state, update: false}
 
     case SET_USER_LIST:
       return {...state, users: action.payload }

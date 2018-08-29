@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, FormText } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form'
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import config from './../../../config';
 import styles from './styles.css';

@@ -19,7 +19,7 @@ export class MainComponent extends Component {
   render() {
     let contents;
 
-    if (this.props.position !== null && this.props.profile !== null) {
+    if (this.props.position && this.props.profile) {
       // 필요한 정보가 모두 로드되고 난 후에 렌더링 해줘야 한다.
       contents = (
         <div className='h100'>

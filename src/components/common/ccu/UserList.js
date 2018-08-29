@@ -5,7 +5,6 @@ import FontAwesome from 'react-fontawesome';
 
 import { connect } from 'react-redux';
 
-import config from './../../../config';
 import styles from './styles.css';
 
 function mapStateToProps(state) {
@@ -15,10 +14,6 @@ function mapStateToProps(state) {
     profile: state.user.profile
   };
 }
-
-// const User = (info) => (
-//
-// );
 
 const Profile = (props) => (
   <div className="user-list-my-profile">
@@ -49,7 +44,7 @@ class UserList extends Component {
       .map((user) => {
         if(this.props.profile.idx !== parseInt(user.idx)) {
           return (
-            <div className="user-list-item">
+            <div className="user-list-item" key={user.idx}>
               <div className="avatar-wrapper">
                 <img className="avatar-image"
                   src={(user.avatar) !== null ?

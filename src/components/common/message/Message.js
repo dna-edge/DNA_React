@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Moment from 'react-moment';
 import 'moment/locale/ko';
 
-import styles from './styles.css';
 import deco from './../../../../public/images/deco.png';
 import megaphone from './../../../../public/images/megaphone.png';
 

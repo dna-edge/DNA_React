@@ -1,18 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import FontAwesome from 'react-fontawesome';
 import ReactTooltip from 'react-tooltip';
-import { Button } from 'reactstrap';
 
 import { reduxForm, reset, Field } from 'redux-form';
 import { connect } from 'react-redux';
 
 import { sendMessage } from './../../../actions/messages/GeoMsgAction';
-import { getProfile } from './../../../actions/user/UserAction';
-
-import Message from './Message';
-
-import styles from './styles.css';
 
 const renderInput = (field) => {
   return (
@@ -70,12 +64,10 @@ class MessageForm extends Component{
       this.setState({type: null});
       window.$(".message-write-fa").css("color", "#bdc6c9");
     }
-
-    console.log(this.props.profile);
   }
 
   render() {
-    const { handleSubmit, submitMyForm } = this.props;
+    const { handleSubmit } = this.props;
 
     return(
       <form className="message-write" onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -108,17 +100,6 @@ class MessageForm extends Component{
     )
   }
 }
-
-function validate(values){
-  const errors = {};
-
-  if(!values.contents){
-    errors.contents = "Enter a contents";
-  }
-
-  return errors;
-}
-
 MessageForm = connect(mapStateToProps, { sendMessage, reset })(MessageForm);
 
 export default reduxForm({
