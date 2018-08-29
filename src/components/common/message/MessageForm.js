@@ -35,9 +35,6 @@ class MessageForm extends Component{
 
   onSubmit(values) {
     this.props.sendMessage(values, this.state.type);
-    if (this.state.type === "LoudSpeaker") {
-      this.props.getProfile(this.props.profile.idx);
-    }
     this.props.reset('newMessage');
   }
 
