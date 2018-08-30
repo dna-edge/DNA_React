@@ -11,7 +11,8 @@ import MapComponent from './map/MapComponent';
 function mapStateToProps(state) {
   return {
     position: state.app.position,
-    profile: state.user.profile
+    profile: state.user.profile,
+    socket: state.app.socket
   };
 }
 
@@ -19,7 +20,7 @@ export class MainComponent extends Component {
   render() {
     let contents;
 
-    if (this.props.position && this.props.profile) {
+    if (this.props.position && this.props.profile && this.props.socket) {
       // 필요한 정보가 모두 로드되고 난 후에 렌더링 해줘야 한다.
       contents = (
         <div className='h100'>

@@ -14,7 +14,7 @@ export function getMessages(coords, radius, page){
     token = JSON.parse(localStorage.getItem("token")).accessToken;
   }
 
-  const request = axios.post(`${ROOT_URL}/message/${page}`,
+  const request = axios.post(`${ROOT_URL}/messages/${page}`,
     { lng: coords.lng, lat: coords.lat, radius },
     { headers: { "token": token } });
 

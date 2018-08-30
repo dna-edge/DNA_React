@@ -58,9 +58,9 @@ class LoginForm extends Component {
     }
 
     if (this.state.isValid) {
-      if (this.submitted) {
-        alert("요청이 전송되었습니다. 잠시만 기다려주세요!");
-      } else {
+      // if (this.submitted) {
+      //   alert("요청이 전송되었습니다. 잠시만 기다려주세요!");
+      // } else {
         this.submitted = true;
         
         const API_URL = `${config.SERVER_HOST}:${config.USER_PORT}/api/users/login`;
@@ -90,7 +90,7 @@ class LoginForm extends Component {
               window.$('.tag-Password').show();
             }
         });
-      }
+      // }
     }
   }
 

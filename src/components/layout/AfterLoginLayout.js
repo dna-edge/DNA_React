@@ -65,7 +65,7 @@ class MyComponent extends Component {
     const socket = this.props.socket;
     const path = this.props.location.pathname;
 
-    if (this.props.position && this.props.profile) {
+    if (this.props.position && this.props.profile && socket) {
       const position = this.props.position;
       const profile = this.props.profile;
 
@@ -108,7 +108,6 @@ class MyComponent extends Component {
   };
 
   render() {
-    console.log(this.props);
     return(
       <div className="h100">
         <NavAfterComponent />
@@ -116,10 +115,11 @@ class MyComponent extends Component {
           <div className="h100calc">
             <Switch>
               <Route exact path="/" component={MainComponent} />
-              <Route path="/dm/:idx?" component={DirectComponent} />
+              <Route path="/dm" component={DirectComponent} />
             </Switch>
           </div>
         </BrowserRouter>
+
         <Notification
           ignore={this.state.ignore && this.state.title !== ''}
           notSupported={this.props.handleNotSupported}

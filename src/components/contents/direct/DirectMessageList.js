@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
 
-import { getMessages } from './../../../actions/messages/GeoMsgAction';
+import { getMessages, getConversations } from './../../../actions/messages/DirectMsgAction';
 import { setGeoPosition } from './../../../actions/AppActions';
-import { fetchDataSuccess, fetchDataFailure } from './../../../actions/index';
+import { fetchDataSuccess } from './../../../actions/index';
 
-import Message from './Message';
-import MessageForm from './MessageForm';
+import Message from './../../common/message/Message';
+import MessageForm from './../../common/message/MessageForm';
 
-import styles from './styles.css';
+import styles from './../../common/message/styles.css';
+
 import config from './../../../config';
 
 import imagePath from './../../../../public/images/empty.png';
@@ -17,13 +18,13 @@ import imagePath from './../../../../public/images/empty.png';
 function mapStateToProps(state) {
   return {
     socket: state.app.socket,
-    position: state.app.position,
     profile: state.user.profile,
-    messages: state.main.messages
+    directs: state.direct.messages,
+    avatar: state.direct.avatar
   };
 }
 
-class MessageList extends Component {
+class DirectMessageList extends Component {
   constructor(props){
     super(props);
 
@@ -40,21 +41,18 @@ class MessageList extends Component {
 
     this.handleInterval = this.handleInterval.bind(this);
     this.handleRequestAnimationFrame = this.handleRequestAnimationFrame.bind(this);
-
-    // this.renderMessages = this.renderMessages.bind(this);
-    // this.hasToUpdate = this.hasToUpdate.bind(this);
   }
 
-  componentWillMount() {
-    this.props.getMessages(this.props.position, this.props.profile.radius, this.page);
-    
+  componentWillMount() {    
     // 1초마다 휠의 위치를 측정합니다.
     const INTERVAL = 1000;
     this.intervalID = setInterval(this.handleInterval, INTERVAL);
 
-    // 5. 서버로부터 새 메시지 이벤트를 받았을 경우에 화면에 새로 렌더링해준다.
-    this.props.socket.on('new_msg', (response) => {
-      this.setState({messages: [response.result, ...this.state.messages]});
+    // 5. 서버로부터 새 메시지 이벤트를 받았을 경우에 화면에 새로 렌더링해준다.    
+    // 여기선 채팅방 리스트도 갱신해줘야 한다.
+    this.props.socket.on('new_dm', (response) => {
+      this.props.getConversations(1);
+      this.setState({messages: [response.result.dm, ...this.state.messages]});
       this.scrollToBottom();
     });
   }
@@ -71,12 +69,17 @@ class MessageList extends Component {
     // 현재 1페이지일 경우에는 처음 끌어오는 경우인 것이므로
     //   메시지를 담는 따로 기존 state가 존재하는 게 아니라는 의미가 됩니다.
     //   state
-    if (this.page === 1) {
-      this.setState({ messages: nextProps.messages });
-    } else {
-      if (nextProps.messages) {
-        this.setState({ messages: [...this.state.messages, ...nextProps.messages]});
+    
+    if (nextProps.directs) {
+      if (this.page === 1) {
+        this.setState({ messages: nextProps.directs });
+      } else {
+        this.setState({ messages: [...this.state.messages, ...nextProps.directs]});
       }
+    }
+
+    if (nextProps.conversationIdx !== this.props.conversationIdx) {
+      this.props.getMessages(nextProps.conversationIdx, this.page);      
     }
   }
 
@@ -90,12 +93,15 @@ class MessageList extends Component {
     }
 
     if (!this.fetching && this.state.position !== null && this.state.position <= 0) {
-      if (prevProps.messages && config.PAGINATION_COUNT === prevProps.messages.length) {
+      if (prevProps.directs && config.PAGINATION_COUNT === prevProps.directs.length) {
           this.beforeHeight = this.objDiv.scrollHeight;
           this.page++;
 
-          this.props.getMessages(this.props.position, this.props.profile.radius, this.page);
-          
+          if (this.props.type === "main") {
+            this.props.getMessages(this.props.position, this.props.profile.radius, this.page);
+          } else if (this.props.type === "direct"){
+
+          }
           this.fetching = true;
           window.$(".message-list-wrapper > div:first-of-type").show();
       }
@@ -151,20 +157,23 @@ class MessageList extends Component {
       .map((message) => {
         tempIdx = beforeIdx;
         tempTime = beforeTime;
-        beforeIdx = message.user.idx;
+        beforeIdx = message.sender_idx;
         beforeTime = message.created_at.split('T')[0];
 
-        if(currentUser === message.user.idx) {
+        if(currentUser === message.sender_idx) {
           return (
-            <Message message={message} key={message.idx}
+            <Message message={message} key={message._id}
+              type={"DM"}
               sender={"me"}
               start={(tempIdx !== beforeIdx) ? true : false }
               dayStart={(tempTime !== beforeTime) ? true : false} />
           )
         } else {
           return (
-            <Message message={message} key={message.idx}
+            <Message message={message} key={message._id}
+              type={"DM"}
               sender={"you"}
+              avatar={this.props.avatar}
               start={(tempIdx !== beforeIdx) ? true : false }
               dayStart={(tempTime !== beforeTime) ? true : false} />
           )
@@ -173,16 +182,19 @@ class MessageList extends Component {
   }
 
   render() {
-    if (!this.state.messages || this.state.messages === null) {
-      return (
-        <div className='message-list-wrapper'>
-          <Loader type="Oval" color="#8a78b0" height="130" width="130" />
-          <div className="message-list-chat-wrapper" />
-        </div>
-      );
-    } else {
-      let contents;
+    let contents;
 
+    if (!this.props.conversationIdx) {
+      contents = (
+        <div className="message-list-empty">
+          <img src={imagePath} />
+          <p>내용을 확인할 채팅방을 선택해주세요.</p>
+        </div>
+      )
+    }
+    else if (!this.state.messages || this.state.messages === null) {
+      window.$(".message-list-wrapper > div:first-of-type").show();
+    } else {
       if (this.state.messages.length === 0) {
         contents = (
           <div className="message-list-empty">
@@ -191,24 +203,22 @@ class MessageList extends Component {
           </div>
         );
       } else {
-        if (this.state.messages === -1){
-        contents = (<p>{}</p>);
-        } else {
-          contents = this.renderMessages();
-        }
+        contents = this.renderMessages();
       }
-      return (
-        <div className="message-list-wrapper">
-          <Loader type="Oval" color="#8a78b0" height="130" width="130" />
-          <div className="message-list-chat-wrapper">
-            {contents}
-          </div>
-          <MessageForm type={ this.props.type } />
-        </div>
-      );
     }
+
+    return (
+      <div className="message-list-wrapper">
+        <Loader type="Oval" color="#8a78b0" height="130" width="130" />
+        <div className="message-list-chat-wrapper">
+          {contents}
+        </div>
+        <MessageForm type={ this.props.type } conversationIdx = {this.props.conversationIdx} />
+      </div>
+    );  
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     getMessages: (position, radius, page) => {
@@ -218,8 +228,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     setGeoPosition: () => {
       dispatch(setGeoPosition());
+    },
+    getConversations: (page) => {
+      dispatch(getConversations(page));
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessageList);
+export default connect(mapStateToProps, mapDispatchToProps)(DirectMessageList);

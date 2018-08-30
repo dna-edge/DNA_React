@@ -7,6 +7,7 @@ import { reduxForm, reset, Field } from 'redux-form';
 import { connect } from 'react-redux';
 
 import { sendMessage } from './../../../actions/messages/GeoMsgAction';
+import { sendMessage as sendDM } from './../../../actions/messages/DirectMsgAction';
 
 const renderInput = (field) => {
   return (
@@ -34,7 +35,11 @@ class MessageForm extends Component{
   }
 
   onSubmit(values) {
-    this.props.sendMessage(values, this.state.type);
+    if (this.props.type === "DM") {
+      this.props.sendMessage(values, this.state.type);
+    } else {
+      this.props.sendDM(values, this.props.conversationIdx);
+    }
     this.props.reset('newMessage');
   }
 
@@ -78,7 +83,7 @@ class MessageForm extends Component{
           <ReactTooltip className='customeTheme' place="top" type="warning" effect="solid">
             <p>확성기로 주변 접속자에게</p>
             <p>푸시 메시지를 보낼 수 있습니다</p>
-            <p>(<strong>100포인트</strong>가 필요합니다)</p>
+            <p><strong>100포인트</strong>가 필요합니다</p>
           </ReactTooltip>
         </div> : "" }
 
@@ -97,7 +102,7 @@ class MessageForm extends Component{
     )
   }
 }
-MessageForm = connect(mapStateToProps, { sendMessage, reset })(MessageForm);
+MessageForm = connect(mapStateToProps, { sendMessage, sendDM, reset })(MessageForm);
 
 export default reduxForm({
   form: 'newMessage'

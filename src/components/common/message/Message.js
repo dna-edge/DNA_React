@@ -20,33 +20,43 @@ const CreatedAt = (props) => (
   </Moment>
 );
 
-const Message = (props) => (
-  <div className={`bubble-wrapper wrapper-${props.sender}`}>
-  {(props.dayStart) ? <DayStart date={props.message.created_at}/> : ''}
-  {(props.sender === 'me') ? <CreatedAt date={props.message.created_at} /> : ''}
-  {(props.start && props.sender === 'you')
-    ?
-    <div className="bubble-profile-wrapper">
-      <div className="avatar-wrapper">
-        <img className="avatar-image"
-          src={(props.message.user.avatar) !== null ?
-            props.message.user.avatar :
-            "/../public/img/avatar.png"}/>
+const Message = (props) => {
+  let avatarPath;
+
+  if (props.type === "DM") {
+    avatarPath = props.avatar;
+  } else {
+    avatarPath = props.message.user.avatar;
+  }
+
+  return (
+    <div className={`bubble-wrapper wrapper-${props.sender}`}>
+    {(props.dayStart) ? <DayStart date={props.message.created_at}/> : ''}
+    {(props.sender === 'me') ? <CreatedAt date={props.message.created_at} /> : ''}
+    {(props.start && props.sender === 'you')
+      ?
+      <div className="bubble-profile-wrapper">
+        <div className="avatar-wrapper">
+          <img className="avatar-image"
+            src={(avatarPath) !== null ?
+              avatarPath :
+              "/../public/img/avatar.png"}/>
+        </div>
+        <p className='bubble-title-name'>
+          {(props.type === "DM") ? "" : props.message.user.nickname}
+        </p>
       </div>
-      <p className='bubble-title-name'>
-        {props.message.user.nickname}
-      </p>
+      : ''}
+    <div className={`bubble bubble-${(props.message.type === "LoudSpeaker")
+      ? "speaker" : ""} bubble-${props.sender } start-${props.start}`}>
+        <span className="bubble-triangle"/>
+        {props.message.contents}
+        {(props.message.type === "LoudSpeaker")
+          ? (<div><img src={megaphone} /><img src={deco}/></div>) : ""}
     </div>
-    : ''}
-  <div className={`bubble bubble-${(props.message.type === "LoudSpeaker")
-    ? "speaker" : ""} bubble-${props.sender } start-${props.start}`}>
-      <span className="bubble-triangle"/>
-      {props.message.contents}
-      {(props.message.type === "LoudSpeaker")
-        ? (<div><img src={megaphone} /><img src={deco}/></div>) : ""}
-  </div>
-  {(props.sender === 'you') ? <CreatedAt date={props.message.created_at} /> : ''}
-  </div>
-);
+    {(props.sender === 'you') ? <CreatedAt date={props.message.created_at} /> : ''}
+    </div>
+  );
+};
 
 export default Message;
