@@ -68,7 +68,6 @@ class DirectMessageList extends Component {
   componentWillReceiveProps(nextProps){
     // 현재 1페이지일 경우에는 처음 끌어오는 경우인 것이므로
     //   메시지를 담는 따로 기존 state가 존재하는 게 아니라는 의미가 됩니다.
-    //   state
     
     if (nextProps.directs) {
       if (this.page === 1) {
@@ -79,12 +78,16 @@ class DirectMessageList extends Component {
     }
 
     if (nextProps.conversationIdx !== this.props.conversationIdx) {
-      this.props.getMessages(nextProps.conversationIdx, this.page);      
+      // 방이 바뀌었을 경우 먼저 초기화해줍니다.
+      this.setState({messages: []});
+      this.page = 1;
+      this.initial = true;
+      this.props.getMessages(nextProps.conversationIdx, this.page);
     }
   }
 
   componentDidUpdate(prevProps, prevState){
-    if (this.initial && this.state.messages !== undefined && this.state.messages !== []) {
+    if (this.initial && this.state.messages.length > 0) {
       this.objDiv = document.getElementsByClassName("message-list-chat-wrapper")[0];
       this.scrollToBottom();
       this.initial = false;
@@ -96,13 +99,8 @@ class DirectMessageList extends Component {
       if (prevProps.directs && config.PAGINATION_COUNT === prevProps.directs.length) {
           this.beforeHeight = this.objDiv.scrollHeight;
           this.page++;
-
-          if (this.props.type === "main") {
-            this.props.getMessages(this.props.position, this.props.profile.radius, this.page);
-          } else if (this.props.type === "direct"){
-
-          }
           this.fetching = true;
+          this.props.getMessages(this.props.conversationIdx, this.page);
           window.$(".message-list-wrapper > div:first-of-type").show();
       }
     }
@@ -187,8 +185,7 @@ class DirectMessageList extends Component {
     if (!this.props.conversationIdx) {
       contents = (
         <div className="message-list-empty">
-          <img src={imagePath} />
-          <p>내용을 확인할 채팅방을 선택해주세요.</p>
+          <p style={{marginTop: "calc(50% + 50px)"}}>내용을 확인할 채팅방을 선택해주세요.</p>
         </div>
       )
     }
@@ -199,7 +196,7 @@ class DirectMessageList extends Component {
         contents = (
           <div className="message-list-empty">
             <img src={imagePath} />
-            <p>이 근방에서는 아직 작성된 메시지가 없습니다</p>
+            <p>아직 작성된 메시지가 없습니다</p>
           </div>
         );
       } else {
