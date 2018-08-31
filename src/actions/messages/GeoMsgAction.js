@@ -3,6 +3,7 @@ import axios from 'axios';
 import config from './../../config.js';
 
 export const GET_MESSAGES = "GET_MESSAGES";
+export const GET_BEST_MESSAGES = "GET_BEST_MESSAGES";
 export const SEND_MESSAGE = "SEND_MESSAGE";
 export const SET_USER_LIST = "SET_USER_LIST";
 export const APPLY_LIKE = "APPLY_LIKE";
@@ -21,6 +22,21 @@ export function getMessages(coords, radius, page){
 
   return {
     type: GET_MESSAGES,
+    payload: request
+  }
+}
+
+export function getBestMessages(coords, radius){
+  if (localStorage.getItem("token")) {
+    token = JSON.parse(localStorage.getItem("token")).accessToken;
+  }
+
+  const request = axios.post(`${ROOT_URL}/best`,
+    { lng: coords.lng, lat: coords.lat, radius },
+    { headers: { "token": token } });
+
+  return {
+    type: GET_BEST_MESSAGES,
     payload: request
   }
 }

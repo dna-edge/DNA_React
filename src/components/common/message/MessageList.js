@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner'
+import Moment from 'react-moment';
+import FontAwesome from 'react-fontawesome';
+import 'moment/locale/ko';
 
-import { getMessages } from './../../../actions/messages/GeoMsgAction';
+import { getMessages, getBestMessages } from './../../../actions/messages/GeoMsgAction';
 import { setGeoPosition } from './../../../actions/AppActions';
-import { fetchDataSuccess, fetchDataFailure } from './../../../actions/index';
+import { fetchDataSuccess, fetchBestSuccess } from './../../../actions/index';
 
 import Message from './Message';
 import MessageForm from './MessageForm';
@@ -19,9 +22,17 @@ function mapStateToProps(state) {
     socket: state.app.socket,
     position: state.app.position,
     profile: state.user.profile,
-    messages: state.main.messages
+    messages: state.main.messages,
+    best: state.main.best
   };
 }
+
+const CreatedAt = (props) => (
+  <div className="best-chat-created-at">
+    <Moment locale="ko" format="YYYY/MM/DD">{props.date}</Moment>
+    <Moment locale="ko" format="A hh:mm">{props.date}</Moment>
+  </div>
+);
 
 class MessageList extends Component {
   constructor(props){
@@ -32,6 +43,7 @@ class MessageList extends Component {
     this.page = 1;          // 현재 페이지입니다. (메시지 페이지네이션)
     this.initial = true;    // 처음 렌더링 되었을 때를 나타냅니다.
     this.fetching = false;  // 현재 fetch 하고 있는 중인지를 나타냅니다.
+    this.updated = false;    // 베스트챗 갱신을 위한 플래그입니다.
 
     this.state = {
       position: null,
@@ -39,21 +51,20 @@ class MessageList extends Component {
       refs: {}
     };
 
+    this.bestChatToggle = this.bestChatToggle.bind(this);
     this.handleInterval = this.handleInterval.bind(this);
     this.handleRequestAnimationFrame = this.handleRequestAnimationFrame.bind(this);
-
-    // this.renderMessages = this.renderMessages.bind(this);
-    // this.hasToUpdate = this.hasToUpdate.bind(this);
   }
 
   componentWillMount() {
     this.props.getMessages(this.props.position, this.props.profile.radius, this.page);
+    this.props.getBestMessages(this.props.position, this.props.profile.radius);
     
     // 1초마다 휠의 위치를 측정합니다.
     const INTERVAL = 1000;
     this.intervalID = setInterval(this.handleInterval, INTERVAL);
 
-    // 5. 서버로부터 새 메시지 이벤트를 받았을 경우에 화면에 새로 렌더링해준다.
+    // 5. 서버로부터 새 메시지 이벤트를 받았을 경우에 화면에 새로 렌더링해줍니다.
     this.props.socket.on('new_msg', (response) => {
       this.setState({messages: [response.result, ...this.state.messages]});
       let i = 0;
@@ -125,6 +136,21 @@ class MessageList extends Component {
     // Interval is only used to throttle animation frame
     cancelAnimationFrame(this.requestID);
     this.requestID = requestAnimationFrame(this.handleRequestAnimationFrame);
+
+    // 현재 시간 (시, 분)을 구합니다.
+    const now = new Date();
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+
+    // 만약 현재 분이 0일 경우 베스트 챗 갱신을 요청합니다.
+    if (minute === 0) {
+      if (!this.updated) {
+        this.props.getBestMessages(this.props.position, this.props.profile.radius);
+        this.updated = true;
+      }
+    } else {
+      this.updated = false;
+    }
   }
 
   handleRequestAnimationFrame() {
@@ -152,6 +178,12 @@ class MessageList extends Component {
     }
   }
 
+  bestChatToggle() {
+    window.$(".best-chat-wrapper").animate({
+      height: window.$(".best-chat-wrapper").height() == 70 ? 70 * this.props.best.length : 70
+    }, 200); 
+  }
+
   renderMessages(){
     let beforeIdx = -1;
     let beforeTime = -1;
@@ -176,8 +208,39 @@ class MessageList extends Component {
       });
   }
 
+  renderBestMessages(){
+    return this.props.best
+      .map((best, i) => {
+        return (
+          <div className="best-chat-contents-item" key={best.idx}>
+            <div className="bubble-side-wrapper">
+              <p className="best-chat-rank">{i+1}위</p>
+              <div className="message-thumb-up i-liked-it">
+                <FontAwesome className="message-thumb-up-fa" name="thumbs-up" />
+                <span className="message-thumb-up-count">{best.like_count}</span>
+              </div>
+            </div>
+            <div className="user-my-profile-top">
+              <div className="avatar-wrapper">
+                <img className="avatar-image"
+                  src={(best.user.avatar) !== null ?
+                    best.user.avatar :
+                    "/../public/img/avatar.png"}/>
+              </div>
+              <div className="user-my-profile-text">
+                <p className="user-my-profile-nickname">{best.user.nickname}</p>
+                <span className="best-chat-contents">{best.contents}</span>
+              </div>
+              <CreatedAt date={best.created_at} />   
+            </div>   
+          </div>
+        )
+      });
+  }
+
   render() {
-    if (!this.state.messages || this.state.messages === null) {
+    if (!this.state.messages || this.state.messages === null || 
+      !this.props.best || this.props.best === null) {
       return (
         <div className='message-list-wrapper'>
           <Loader type="Oval" color="#8a78b0" height="130" width="130" />
@@ -186,6 +249,7 @@ class MessageList extends Component {
       );
     } else {
       let contents;
+      let bests;
 
       if (this.state.messages.length === 0) {
         contents = (
@@ -201,11 +265,30 @@ class MessageList extends Component {
           contents = this.renderMessages();
         }
       }
+
+      if (this.props.best.length === 0) {
+        bests = (
+          <div className="best-chat-contents-wrapper">
+            <p>이 근방에서는 아직 작성된 베스트챗이 없습니다</p>
+          </div>
+        );
+      } else {
+        bests = (
+          <div className="best-chat-contents-wrapper">
+            {this.renderBestMessages()}
+          </div>
+        )
+      }
       return (
         <div className="message-list-wrapper">
           <Loader type="Oval" color="#8a78b0" height="130" width="130" />
           <div className="message-list-chat-wrapper">
             {contents}
+          </div>
+          <div className="best-chat-wrapper">
+            <FontAwesome className="best-chat-fa" name="award" />
+            {bests}
+            <FontAwesome className="best-chat-toggle" name="angle-down" onClick={this.bestChatToggle} />
           </div>
           <MessageForm type={ this.props.type } />
         </div>
@@ -213,6 +296,7 @@ class MessageList extends Component {
     }
   }
 }
+
 const mapDispatchToProps = (dispatch) => {
   return {
     getMessages: (position, radius, page) => {
@@ -222,7 +306,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     setGeoPosition: () => {
       dispatch(setGeoPosition());
-    }
+    },
+    getBestMessages: (position, radius) => {
+      dispatch(getBestMessages(position, radius)).then((response) => {
+        dispatch(fetchBestSuccess(response.payload.data));
+      });
+    },
   }
 }
 

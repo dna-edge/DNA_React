@@ -4,6 +4,7 @@
   vertical-align: top;
   display: inline-block;
   background-color: #FDFDFC;
+  border-right: 1px solid #E6E6E6;
   width: 50%;
   height: 100%;
 }
@@ -17,15 +18,122 @@
   text-align: center;
 }
 
+.best-chat-wrapper {
+  position: absolute;
+  top: 20px;
+  left: 25px;
+  width: calc(100% - 50px);
+  height: 70px;
+  border-radius: 10px;
+  background-color: #F1F3F5;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.best-chat-fa {
+  vertical-align: top;
+  font-size: 40px;
+  margin: 13px 22px 0 22px;
+  color: #ffa700;
+}
+
+.best-chat-contents-wrapper {
+  display: inline-block;
+  width: calc(100% - 140px);
+}
+
+.best-chat-toggle {
+  vertical-align: top;
+  font-size: 40px;
+  margin: 15px 10px 0 20px;
+  text-align: right;
+  color: #454545;
+}
+
+.best-chat-contents-item {
+  display: block;
+  min-height: 58px;
+  margin: 13px 5px;
+  border-bottom: 1px solid #bdc6c9;
+}
+
+.best-chat-contents-item:last-of-type {
+  border: none;
+}
+
+.best-chat-contents-item .bubble-side-wrapper{
+  vertical-align: top !important;
+  min-width: 55px;
+  padding-right: 15px;
+  text-align: right;
+}
+
+.best-chat-contents-item .message-thumb-up {
+  position: relative;
+  display: inline;
+  border: none;
+  cursor: default;
+}
+
+.best-chat-contents-item .message-thumb-up:hover{
+  border: none;
+}
+
+.best-chat-rank { 
+  vertical-align: top;
+  font-size: 20px;
+  margin-top: -5px;
+  margin-bottom: 0;
+}
+
+.best-chat-contents-item .user-my-profile-top {
+  display: inline-block;
+  width: calc(100% - 150px);
+}
+
+.best-chat-contents-item .avatar-wrapper {
+  width: 45px;
+  height: 45px;
+}
+
+.best-chat-contents-item .user-my-profile-text {
+  width: calc(100% - 70px);
+}
+
+.best-chat-contents-item .user-my-profile-nickname {
+  font-size: 20px;
+  margin-top: -5px;
+}
+
+.best-chat-contents {
+  font-family: 'NanumSquare' !important;
+  font-size: 17px !important;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.best-chat-created-at {
+  position: absolute;
+  right: 80px;
+  display: inline-block;
+}
+
+.best-chat-created-at time {
+  display: block;
+  font-size: 14px;
+  margin: 2px 0 2px 0;
+  color: #454545;
+}
+
 .message-list-chat-wrapper{
   position: absolute;
-  top: 0;
+  top: 90px;
   left: 0;
-  height: calc(100% - 50px);
+  height: calc(100% - 140px);
   width: 100%;
   overflow-y: scroll;
   padding: 20px 35px 20px;
-  border: 1px solid #E6E6E6;
   text-align: center;
 }
 
