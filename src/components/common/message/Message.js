@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Moment from 'react-moment';
+import FontAwesome from 'react-fontawesome';
 import 'moment/locale/ko';
+
+
+import { connect } from 'react-redux';
+import { applyLike } from './../../../actions/messages/GeoMsgAction';
 
 import deco from './../../../../public/images/deco.png';
 import megaphone from './../../../../public/images/megaphone.png';
@@ -20,43 +25,75 @@ const CreatedAt = (props) => (
   </Moment>
 );
 
-const Message = (props) => {
-  let avatarPath;
+class Message extends Component {
+  constructor() {
+    super();
 
-  if (props.type === "DM") {
-    avatarPath = props.avatar;
-  } else {
-    avatarPath = props.message.user.avatar;
+    this.onThumbClick = this.onThumbClick.bind(this);
+  }
+  onThumbClick() {
+    this.props.applyLike(this.props.message.idx);
   }
 
-  return (
-    <div className={`bubble-wrapper wrapper-${props.sender}`}>
-    {(props.dayStart) ? <DayStart date={props.message.created_at}/> : ''}
-    {(props.sender === 'me') ? <CreatedAt date={props.message.created_at} /> : ''}
-    {(props.start && props.sender === 'you')
-      ?
-      <div className="bubble-profile-wrapper">
-        <div className="avatar-wrapper">
-          <img className="avatar-image"
-            src={(avatarPath) !== null ?
-              avatarPath :
-              "/../public/img/avatar.png"}/>
+  render() {
+    let avatarPath;
+
+    if (this.props.type === "DM") {
+      avatarPath = this.props.avatar;
+    } else {
+      avatarPath = this.props.message.user.avatar;
+    }
+
+    return (
+      <div className={`bubble-wrapper wrapper-${this.props.sender}`}>    
+        {(this.props.dayStart) ? <DayStart date={this.props.message.created_at}/> : ''}
+        
+        {(this.props.sender === 'me') ? 
+        <div className="bubble-side-wrapper">
+          {(this.props.type === "DM") ? "" : 
+            <div onClick={this.onThumbClick}
+              className={`message-thumb-up ${(this.props.message.likes.includes(this.props.idx)) ? "i-liked-it" : ""}`}>
+              <FontAwesome className="message-thumb-up-fa" name="thumbs-up" />
+              <span className="message-thumb-up-count">{this.props.message.like_count}</span>
+            </div>
+          }
+          <CreatedAt date={this.props.message.created_at} />
+        </div> : ''}    
+        {(this.props.start && this.props.sender === 'you')
+          ?
+          <div className="bubble-profile-wrapper">
+            <div className="avatar-wrapper">
+              <img className="avatar-image"
+                src={(avatarPath) !== null ?
+                  avatarPath :
+                  "/../public/img/avatar.png"}/>
+            </div>
+            <p className='bubble-title-name'>
+              {(this.props.type === "DM") ? "" : this.props.message.user.nickname}
+            </p>
+          </div>
+          : ''}
+        <div className={`bubble bubble-${(this.props.message.type === "LoudSpeaker")
+          ? "speaker" : ""} bubble-${this.props.sender } start-${this.props.start}`}>        
+            <span className="bubble-triangle"/>
+            <span className="bubble-contents">{this.props.message.contents}</span>
+            {(this.props.message.type === "LoudSpeaker")
+              ? (<div><img src={megaphone} /><img src={deco}/></div>) : ""}
         </div>
-        <p className='bubble-title-name'>
-          {(props.type === "DM") ? "" : props.message.user.nickname}
-        </p>
+        {(this.props.sender === 'you') ? 
+        <div className="bubble-side-wrapper">
+          {(this.props.type === "DM") ? "" : 
+            <div onClick={this.onThumbClick}
+            className={`message-thumb-up ${(this.props.message.likes.includes(this.props.idx)) ? "i-liked-it" : ""}`}>
+              <FontAwesome className="message-thumb-up-fa" name="thumbs-up" />
+              <span className="message-thumb-up-count">{this.props.message.like_count}</span>
+            </div>
+          }
+          <CreatedAt date={this.props.message.created_at} />
+        </div> : ''}    
       </div>
-      : ''}
-    <div className={`bubble bubble-${(props.message.type === "LoudSpeaker")
-      ? "speaker" : ""} bubble-${props.sender } start-${props.start}`}>
-        <span className="bubble-triangle"/>
-        {props.message.contents}
-        {(props.message.type === "LoudSpeaker")
-          ? (<div><img src={megaphone} /><img src={deco}/></div>) : ""}
-    </div>
-    {(props.sender === 'you') ? <CreatedAt date={props.message.created_at} /> : ''}
-    </div>
-  );
+    );
+  }
 };
 
-export default Message;
+export default connect(null, { applyLike })(Message);

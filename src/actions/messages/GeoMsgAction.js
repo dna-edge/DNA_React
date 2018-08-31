@@ -5,6 +5,7 @@ import config from './../../config.js';
 export const GET_MESSAGES = "GET_MESSAGES";
 export const SEND_MESSAGE = "SEND_MESSAGE";
 export const SET_USER_LIST = "SET_USER_LIST";
+export const APPLY_LIKE = "APPLY_LIKE";
 
 const ROOT_URL = `${config.SERVER_HOST}:${config.SOCKET_PORT}/api`;
 let token = '';
@@ -44,6 +45,20 @@ export function sendMessage(values, type) {
     });
   }
 }
+
+export function applyLike(idx) {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    // axios로 직접 통신하지 않고 app에 직접 연결된 socket을 통해 send_message 이벤트를 발생시킨다.
+    state.app.socket.emit("like", token, idx);
+
+    dispatch({
+      type: APPLY_LIKE
+    });
+  }
+}
+
 export function setUserList(value) {
   return {
     type: SET_USER_LIST,

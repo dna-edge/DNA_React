@@ -210,7 +210,7 @@ class DirectMessageList extends Component {
         <div className="message-list-chat-wrapper">
           {contents}
         </div>
-        <MessageForm type={ this.props.type } conversationIdx = {this.props.conversationIdx} />
+        <MessageForm type={"dm"} conversationIdx = {this.props.conversationIdx} />
       </div>
     );  
   }

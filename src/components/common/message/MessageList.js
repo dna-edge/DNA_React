@@ -35,7 +35,8 @@ class MessageList extends Component {
 
     this.state = {
       position: null,
-      messages: []
+      messages: [],
+      refs: {}
     };
 
     this.handleInterval = this.handleInterval.bind(this);
@@ -55,8 +56,19 @@ class MessageList extends Component {
     // 5. 서버로부터 새 메시지 이벤트를 받았을 경우에 화면에 새로 렌더링해준다.
     this.props.socket.on('new_msg', (response) => {
       this.setState({messages: [response.result, ...this.state.messages]});
+      let i = 0;
+      let joined = {};
+      this.state.messages.map((message) => {joined[message.idx] = i; i++});
+      this.setState({ refs: joined });
       this.scrollToBottom();
     });
+
+    this.props.socket.on('apply_like', (response) => {
+      const target = this.state.refs[response.result.idx];
+      const messages = this.state.messages;
+      messages[target] = response.result;
+      this.forceUpdate();
+    })
   }
 
   componentWillUnmount() {
@@ -71,12 +83,12 @@ class MessageList extends Component {
     // 현재 1페이지일 경우에는 처음 끌어오는 경우인 것이므로
     //   메시지를 담는 따로 기존 state가 존재하는 게 아니라는 의미가 됩니다.
     //   state
-    if (this.page === 1) {
-      this.setState({ messages: nextProps.messages });
-    } else {
-      if (nextProps.messages) {
-        this.setState({ messages: [...this.state.messages, ...nextProps.messages]});
-      }
+    if (nextProps.messages) {
+      this.setState({ messages: [...this.state.messages, ...nextProps.messages]});
+      let i = this.state.messages.length;
+      let joined = this.state.refs;
+      nextProps.messages.map((message) => {joined[message.idx] = i; i++});
+      this.setState({ refs: joined });
     }
   }
 
@@ -154,21 +166,13 @@ class MessageList extends Component {
         beforeIdx = message.user.idx;
         beforeTime = message.created_at.split('T')[0];
 
-        if(currentUser === message.user.idx) {
-          return (
-            <Message message={message} key={message.idx}
-              sender={"me"}
-              start={(tempIdx !== beforeIdx) ? true : false }
-              dayStart={(tempTime !== beforeTime) ? true : false} />
-          )
-        } else {
-          return (
-            <Message message={message} key={message.idx}
-              sender={"you"}
-              start={(tempIdx !== beforeIdx) ? true : false }
-              dayStart={(tempTime !== beforeTime) ? true : false} />
-          )
-        }
+        return (
+          <Message message={message} key={message.idx}
+            sender={(currentUser === message.user.idx) ? "me" : "you"}
+            idx={this.props.profile.idx}
+            start={(tempIdx !== beforeIdx) ? true : false }
+            dayStart={(tempTime !== beforeTime) ? true : false} />
+        )
       });
   }
 

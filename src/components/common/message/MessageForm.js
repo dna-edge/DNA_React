@@ -35,10 +35,10 @@ class MessageForm extends Component{
   }
 
   onSubmit(values) {
-    if (this.props.type === "DM") {
-      this.props.sendMessage(values, this.state.type);
-    } else {
+    if (this.props.type === "dm") {
       this.props.sendDM(values, this.props.conversationIdx);
+    } else {
+      this.props.sendMessage(values, this.state.type);  
     }
     this.props.reset('newMessage');
   }

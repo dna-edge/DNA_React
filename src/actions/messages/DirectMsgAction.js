@@ -34,6 +34,7 @@ export function getMessages(idx, page){
 }
 
 export function sendMessage(values, conversationIdx) {
+  console.log("here")
   return (dispatch, getState) => {
     const state = getState();
 
