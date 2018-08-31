@@ -52,11 +52,8 @@ class UserList extends Component {
                     "/../public/img/avatar.png"}/>
               </div>
               <p className="user-list-item-nickname">{user.nickname}</p>
-              <FontAwesome className="user-list-sign" name="circle" />
-              {/*<button className="user-list-button">
-                <span className="ti-angle-down"></span>
-              </button>
-              */}
+              <FontAwesome name="circle" 
+                className={`user-list-sign ${(user.inside ? "user-inside" : "user-outside")}`} />
             </div>
           )
         }
