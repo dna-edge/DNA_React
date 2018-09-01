@@ -103,7 +103,7 @@ class MessageForm extends Component{
     });
 
     const fileName = window.$("input:file").val().replace(/^.*[\\\/]/, '');
-    window.$("input:text").val("이미지를 전송합니다 : " + fileName);
+    window.$(".message-text").val("이미지를 전송합니다 : " + fileName);
     window.$(".message-text").attr("readonly", true);
   }
 
@@ -136,7 +136,7 @@ class MessageForm extends Component{
             label: 'No',
             onClick: () => {
               const fileName = window.$("input:file").val().replace(/^.*[\\\/]/, '');
-              window.$("input:text").val("이미지를 전송합니다 : " + fileName);
+              window.$(".message-text").val("이미지를 전송합니다 : " + fileName);
             }
           }
         ]
