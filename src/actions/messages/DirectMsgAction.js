@@ -33,13 +33,13 @@ export function getMessages(idx, page){
   }
 }
 
-export function sendMessage(values, conversationIdx) {
-  console.log("here")
+export function sendMessage(values, type, conversationIdx) {
   return (dispatch, getState) => {
     const state = getState();
 
     const messageData = {
       room_idx: conversationIdx,
+      type,
       contents: values.contents
     };
 

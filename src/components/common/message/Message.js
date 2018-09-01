@@ -76,7 +76,10 @@ class Message extends Component {
         <div className={`bubble bubble-${(this.props.message.type === "LoudSpeaker")
           ? "speaker" : ""} bubble-${this.props.sender } start-${this.props.start}`}>        
             <span className="bubble-triangle"/>
-            <span className="bubble-contents">{this.props.message.contents}</span>
+            <div className="bubble-contents">
+              {(this.props.message.type === "Image") ? 
+                <img className="bubble-image" src={this.props.message.contents} /> : this.props.message.contents}
+            </div>
             {(this.props.message.type === "LoudSpeaker")
               ? (<div><img src={megaphone} /><img src={deco}/></div>) : ""}
         </div>

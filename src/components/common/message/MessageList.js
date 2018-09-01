@@ -106,8 +106,8 @@ class MessageList extends Component {
   componentDidUpdate(prevProps, prevState){
     if (this.initial && this.state.messages !== undefined && this.state.messages !== []) {
       this.objDiv = document.getElementsByClassName("message-list-chat-wrapper")[0];
-      this.scrollToBottom();
       this.initial = false;
+      this.scrollToBottom();
       this.beforeHeight = this.objDiv.scrollHeight;
       window.$(".message-list-wrapper > div:first-of-type").hide();
     }
@@ -173,15 +173,18 @@ class MessageList extends Component {
   }
 
   scrollToBottom(){
+    console.log("bottom");
     if (this.objDiv) {
       this.objDiv.scrollTop = this.objDiv.scrollHeight - this.objDiv.clientHeight;
     }
   }
 
   bestChatToggle() {
-    window.$(".best-chat-wrapper").animate({
-      height: window.$(".best-chat-wrapper").height() == 70 ? 70 * this.props.best.length : 70
-    }, 200); 
+    if (this.props.best && this.props.best.length > 1) {
+      window.$(".best-chat-wrapper").animate({
+        height: window.$(".best-chat-wrapper").height() == 70 ? 70 * this.props.best.length : 70
+      }, 200); 
+    }
   }
 
   renderMessages(){

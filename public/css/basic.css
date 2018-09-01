@@ -193,7 +193,7 @@ p {
 }
 
 .h100calc {
-  height: calc(100% - 50px);
+  height: calc(100% - 50px) !important;
   padding: 0 !important;
   margin: 0 !important;
   border: 0 !important;

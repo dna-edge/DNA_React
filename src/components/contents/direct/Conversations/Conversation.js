@@ -62,7 +62,7 @@ class Conversation extends Component {
             <p className="conversation-list-icon"><span className="ion-arrow-right-b"></span></p>
           </div>
           <Dotdotdot clamp={2} className="conversation-list-last-message">
-            {this.props.conversation.last_message}
+            {this.props.conversation.last_type === "Image" ? "사진" : this.props.conversation.last_message}
           </Dotdotdot>
         </div>
       )

@@ -228,6 +228,11 @@
   vertical-align: bottom !important;
 }
 
+.bubble-image {
+  max-width: 100%;
+  padding: 9px 0;
+}
+
 .message-created-at {
   position: absolute;
   font-size: 12px;
@@ -486,4 +491,39 @@
   top: 9px;
   bottom: 7px;
   right: 55px;
+}
+
+#file { width:0; height:0; }          
+
+.react-confirm-alert-body {
+  text-align: center !important;
+}
+.react-confirm-alert-body h1 {
+  font-size: 24px !important;
+  font-family: "NanumSquare" !important;
+  font-weight: bold;
+}
+
+.react-confirm-alert-body #text {
+  font-size: 22px;
+  font-family: "NanumSquare" !important;
+}
+
+.react-confirm-alert-button-group {
+  display: inline-block !important;
+  width: 150px !important;
+  text-align: center !important;
+}
+
+.react-confirm-alert-button-group button {
+  font-size: 15px !important;
+  font-weight: bold !important;
+  font-family: "NanumSquare" !important;
+  width: 70px !important;
+  margin: 0 !important;
+}
+
+.react-confirm-alert-button-group button:first-of-type {
+  background-color: #6632b5 !important;
+  margin-right: 10px !important;
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
+import Loader from 'react-loader-spinner';
 
 import styles from './../styles.css';
 
@@ -49,6 +50,8 @@ export class DirectComponent extends Component {
           <UserList type="direct" />
         </div>
       );
+    } else {
+      contents = (<Loader type="Oval" color="#8a78b0" height="130" width="130" />);
     }
 
     return (
