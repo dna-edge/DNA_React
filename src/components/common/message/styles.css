@@ -137,6 +137,11 @@
   text-align: center;
 }
 
+.direct-message .message-list-chat-wrapper{
+  height: 100%;
+  top: 0px;
+}
+
 .message-list-wrapper svg {
   margin-top: calc(50% - 130px);
 }
@@ -425,6 +430,10 @@
   box-shadow: none !important;
   margin: 0 !important;
   border-right: 1px solid #F1F1F1 !important;
+}
+
+.direct-message .message-text {
+  padding-left: 20px !important;
 }
 
 .msg-form-button {
