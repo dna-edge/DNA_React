@@ -306,6 +306,7 @@
   font-family: "NanumSquare", "Open Sans" !important;
   font-weight: 400 !important;
   vertical-align: bottom;
+  overflow: hidden;
 }
 
 .bubble-contents {

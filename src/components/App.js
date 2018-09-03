@@ -42,7 +42,7 @@ class MyComponent extends Component {
     if (path === "/login" && localStorage.getItem("token")) {
       // 토큰이 있어 넘어왔음에도 login으로 라우팅을 시도할 경우
       // 홈으로 보내버립니다.
-      this.props.history.push('/');
+      this.props.history.push('/main');
       return;
     }
     

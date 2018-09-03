@@ -76,7 +76,7 @@ class LoginForm extends Component {
             await this.props.setUserIndex(result.profile.idx);
 
             // 그리고 메인으로 이동한다.
-            this.props.history.push('/');
+            this.props.history.push('/main');
           })
         .catch(error => {
             console.dir(error);
@@ -96,21 +96,12 @@ class LoginForm extends Component {
 
   componentWillMount() {
     if (localStorage.getItem("token")) {
-      (<Redirect to="/" push={ true } />)
+      (<Redirect to="/main" push={ true } />)
     }
   }
 
   render() {
     const { handleSubmit, submitting } = this.props;
-    const { navigate } = this.state;
-
-    if (navigate) {
-      return (
-        <BrowserRouter>
-          this.props.history.push('/');
-        </BrowserRouter>
-      )
-    }
 
     return (
       <Form className='form-wrapper' onSubmit={handleSubmit(this.onSubmit.bind(this))}>

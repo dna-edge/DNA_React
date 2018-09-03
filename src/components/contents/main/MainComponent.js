@@ -32,7 +32,7 @@ export class MainComponent extends Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log(2);
     let contents;
 
     if (this.props.position && this.props.profile && this.props.socket) {

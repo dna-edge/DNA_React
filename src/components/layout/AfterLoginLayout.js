@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Notification from 'react-web-notification';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Switch, Route, withRouter } from 'react-router-dom';
+import Loader from 'react-loader-spinner';
 
 import { connect } from 'react-redux';
 
@@ -45,7 +46,6 @@ class MyComponent extends Component {
   async componentWillUpdate() {
     if (!this.props.socket || this.props.socket === null) {
       await this.props.setSocketConnected();
-      this.props.history.push('/');
     }
   };
 
@@ -86,7 +86,7 @@ class MyComponent extends Component {
       socket.on('ping', () => {
         let type = '';
 
-        if (path === "/") {           // 현재 path에 따라서 요구하는 정보가 달라야 합니다.
+        if (path === "/main") {           // 현재 path에 따라서 요구하는 정보가 달라야 합니다.
           type = "geo";               // /(전체 채팅)일 경우에는 위치 기준 주변 접속자 리스트를,
         } else if (path === "/dm"){   // /dm (다이렉트 메시지)일 경우에는 친구 접속자 리스트를 받습니다.
           type = "direct";
@@ -108,35 +108,43 @@ class MyComponent extends Component {
   };
 
   render() {
-    return(
-      <div className="h100">
-        <NavAfterComponent />
-        <BrowserRouter>
-          <div className="h100calc">
-            <Switch>
-              <Route exact path="/" component={MainComponent} />
-              <Route path="/dm" component={DirectComponent} />
-            </Switch>
-          </div>
-        </BrowserRouter>
+    if (this.props.profile && this.props.socket && this.props.position) {
+      return (
+        <div className="h100">
+          <NavAfterComponent />
+          <BrowserRouter>
+            <div className="h100calc">
+              <Switch>
+                <Route path="/main" component={MainComponent} />
+                <Route path="/dm" component={DirectComponent} />
+              </Switch>
+            </div>
+          </BrowserRouter>
 
-        <Notification
-          ignore={this.state.ignore && this.state.title !== ''}
-          notSupported={this.props.handleNotSupported}
-          onPermissionGranted={this.props.handlePermissionGranted}
-          onPermissionDenied={this.props.handlePermissionDenied}
-          onShow={this.handleNotiOnShow}
-          timeout={5000}
-          title={this.state.title}
-          options={this.state.options}
-          />
-          <audio id='sound' preload='auto'>
-            <source src={soundMp3} type='audio/mpeg' />
-            <source src={soundOgg} type='audio/ogg' />
-            <embed hidden='true' autostart='false' loop='false' src={soundMp3} />
-          </audio>
-      </div>
-    );
+          <Notification
+            ignore={this.state.ignore && this.state.title !== ''}
+            notSupported={this.props.handleNotSupported}
+            onPermissionGranted={this.props.handlePermissionGranted}
+            onPermissionDenied={this.props.handlePermissionDenied}
+            onShow={this.handleNotiOnShow}
+            timeout={5000}
+            title={this.state.title}
+            options={this.state.options}
+            />
+            <audio id='sound' preload='auto'>
+              <source src={soundMp3} type='audio/mpeg' />
+              <source src={soundOgg} type='audio/ogg' />
+              <embed hidden='true' autostart='false' loop='false' src={soundMp3} />
+            </audio>
+        </div>
+      );
+    } else {
+      return (
+        <div className='main-with-loader'>      
+          <Loader type="Oval" color="#8a78b0" height="130" width="130" />
+        </div>
+      );
+    }
   };
 
   makePushNoti(data) {
