@@ -15,7 +15,7 @@ import { imageFileUpload } from './../../../actions/helper';
 const renderInput = (field) => {
   return (
     <div>
-      <input {...field.input} type="text" className="message-text" autoComplete="off"
+      <input {...field.input} type="text" id="message-text" autoComplete="off"
        onClick={field.onClick} />
     </div>
   )
@@ -52,21 +52,25 @@ class MessageForm extends Component{
       values.contents = result.data;
     }
 
-    if (this.props.type === "dm") {
-      this.props.sendDM(values, this.state.type, this.props.conversationIdx);
-    } else { 
-      this.props.sendMessage(values, this.state.type);  
+    if (values.contents !== "") {
+      if (this.props.type === "dm") {
+        this.props.sendDM(values, this.state.type, this.props.conversationIdx);
+      } else { 
+        this.props.sendMessage(values, this.state.type);  
+      }
     }
 
     // 전송이 모두 끝난 후엔 초기화!
+    values.contents = "";
     this.initialImage();
     this.props.reset('newMessage');
   }
 
   initialImage() {
     window.$("input:file").val("");
-    window.$(".message-text").val("");
-    window.$(".message-text").attr("readonly", false);  
+    window.$("#message-text").val("");
+    window.$("#message-text").attr("readonly", false);  
+    window.$("#message-text").focus();
     window.$(".message-write-fa").css("color", "#bdc6c9");
     this.setState({ type: "", file: null });
   }
@@ -103,8 +107,8 @@ class MessageForm extends Component{
     });
 
     const fileName = window.$("input:file").val().replace(/^.*[\\\/]/, '');
-    window.$(".message-text").val("이미지를 전송합니다 : " + fileName);
-    window.$(".message-text").attr("readonly", true);
+    window.$("#message-text").val("이미지를 전송합니다 : " + fileName);
+    window.$("#message-text").attr("readonly", true);
   }
 
   selectFile() {   
@@ -136,7 +140,7 @@ class MessageForm extends Component{
             label: 'No',
             onClick: () => {
               const fileName = window.$("input:file").val().replace(/^.*[\\\/]/, '');
-              window.$(".message-text").val("이미지를 전송합니다 : " + fileName);
+              window.$("#message-text").val("이미지를 전송합니다 : " + fileName);
             }
           }
         ]

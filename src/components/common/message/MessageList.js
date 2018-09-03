@@ -43,7 +43,6 @@ class MessageList extends Component {
     this.page = 1;          // 현재 페이지입니다. (메시지 페이지네이션)
     this.initial = true;    // 처음 렌더링 되었을 때를 나타냅니다.
     this.fetching = false;  // 현재 fetch 하고 있는 중인지를 나타냅니다.
-    this.updated = false;    // 베스트챗 갱신을 위한 플래그입니다.
 
     this.state = {
       position: null,
@@ -139,17 +138,12 @@ class MessageList extends Component {
 
     // 현재 시간 (시, 분)을 구합니다.
     const now = new Date();
-    const hour = now.getHours();
     const minute = now.getMinutes();
+    const second = now.getSeconds();
 
     // 만약 현재 분이 0일 경우 베스트 챗 갱신을 요청합니다.
-    if (minute === 0) {
-      if (!this.updated) {
-        this.props.getBestMessages(this.props.position, this.props.profile.radius);
-        this.updated = true;
-      }
-    } else {
-      this.updated = false;
+    if (minute === 0 && second === 0) {
+      this.props.getBestMessages(this.props.position, this.props.profile.radius);
     }
   }
 
@@ -173,7 +167,6 @@ class MessageList extends Component {
   }
 
   scrollToBottom(){
-    console.log("bottom");
     if (this.objDiv) {
       this.objDiv.scrollTop = this.objDiv.scrollHeight - this.objDiv.clientHeight;
     }
@@ -232,7 +225,9 @@ class MessageList extends Component {
               </div>
               <div className="user-my-profile-text">
                 <p className="user-my-profile-nickname">{best.user.nickname}</p>
-                <span className="best-chat-contents">{best.contents}</span>
+                <span className="best-chat-contents">
+                  { best.type === "Image" ? "사진" : best.contents }
+                </span>
               </div>
               <CreatedAt date={best.created_at} />   
             </div>   

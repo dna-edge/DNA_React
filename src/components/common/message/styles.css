@@ -416,7 +416,7 @@
   box-shadow: none !important;
 }
 
-.message-text{
+#message-text{
   position: relative;
   display: block;
   font-size: 16px !important;
@@ -432,7 +432,7 @@
   border-right: 1px solid #F1F1F1 !important;
 }
 
-.direct-message .message-text {
+.direct-message #message-text {
   padding-left: 20px !important;
 }
 
