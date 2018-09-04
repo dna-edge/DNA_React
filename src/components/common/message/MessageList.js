@@ -196,7 +196,7 @@ class MessageList extends Component {
         beforeTime = message.created_at.split('T')[0];
 
         return (
-          <Message message={message} key={message.idx}
+          <Message message={message} key={"msg"+message.idx}
             sender={(currentUser === message.user.idx) ? "me" : "you"}
             idx={this.props.profile.idx}
             start={(tempIdx !== beforeIdx) ? true : false }
@@ -208,7 +208,6 @@ class MessageList extends Component {
   renderBestMessages(){
     return this.props.best
       .map((best, i) => {
-        console.log(best);
         let contents = '';
 
         if (best.type === "Image") contents = "[사진]";
