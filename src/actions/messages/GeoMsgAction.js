@@ -12,8 +12,8 @@ const ROOT_URL = `${config.SERVER_HOST}:${config.SOCKET_PORT}/api`;
 let token = '';
 
 export function getMessages(coords, radius, page){
-  if (localStorage.getItem("token")) {
-    token = JSON.parse(localStorage.getItem("token")).accessToken;
+  if (sessionStorage.getItem("token")) {
+    token = JSON.parse(sessionStorage.getItem("token")).accessToken;
   }
 
   const request = axios.post(`${ROOT_URL}/messages/${page}`,
@@ -27,8 +27,8 @@ export function getMessages(coords, radius, page){
 }
 
 export function getBestMessages(coords, radius){
-  if (localStorage.getItem("token")) {
-    token = JSON.parse(localStorage.getItem("token")).accessToken;
+  if (sessionStorage.getItem("token")) {
+    token = JSON.parse(sessionStorage.getItem("token")).accessToken;
   }
 
   const request = axios.post(`${ROOT_URL}/best`,

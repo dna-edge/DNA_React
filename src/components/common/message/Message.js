@@ -50,7 +50,6 @@ class Message extends Component {
   }
 
   searchAddressToCoordinate() {    
-    console.log(1);
     const position = JSON.parse(this.props.message.contents);      
     const CURRENT_POSITION = new window.naver.maps.LatLng(position.lat, position.lng);
 

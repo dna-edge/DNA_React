@@ -69,7 +69,7 @@ class LoginForm extends Component {
             const result = response.data.result;
             let token = result.token;
             token.idx = result.profile.idx;
-            localStorage.setItem("token", JSON.stringify(token));
+            sessionStorage.setItem("token", JSON.stringify(token));
 
             // 다음으로 프로필을 저장한다.
             await this.props.getProfile(result.profile.idx);
@@ -97,7 +97,7 @@ class LoginForm extends Component {
   }
 
   componentWillMount() {
-    if (localStorage.getItem("token")) {
+    if (sessionStorage.getItem("token")) {
       history.push('/main');
     }
   }

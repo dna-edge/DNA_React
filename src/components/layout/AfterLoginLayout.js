@@ -52,7 +52,7 @@ class MyComponent extends Component {
     // 로그인 한 후에도 프로필을 가지고 있지 않다면
     // 서버에 요청해서 다시 저장합니다.
     if (!this.props.profile || this.props.profile === null) {
-      this.props.getProfile(JSON.parse(localStorage.getItem("token")).idx);
+      this.props.getProfile(JSON.parse(sessionStorage.getItem("token")).idx);
     }
 
     if (!this.props.position || this.props.position === null) {
@@ -61,7 +61,7 @@ class MyComponent extends Component {
   };
 
   componentDidUpdate() {
-    if (!localStorage.getItem("token")) {
+    if (!sessionStorage.getItem("token")) {
       return;
     }
 

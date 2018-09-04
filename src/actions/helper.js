@@ -7,8 +7,8 @@ const SOCKET_API_URL = `${config.SOCKET_HOST}:${config.SOCKET_PORT}/api`;
 
 let token;
 
-if (localStorage.getItem('token')) {
-  token = JSON.parse(localStorage.getItem('token')).accessToken;
+if (sessionStorage.getItem('token')) {
+  token = JSON.parse(sessionStorage.getItem('token')).accessToken;
 }
 
 export async function fetchOtherProfile(idx) {

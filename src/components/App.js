@@ -39,7 +39,7 @@ class MyComponent extends Component {
 
     const path = this.props.location.pathname;
 
-    if (path === "/login" && localStorage.getItem("token")) {
+    if (path === "/login" && sessionStorage.getItem("token")) {
       // 토큰이 있어 넘어왔음에도 login으로 라우팅을 시도할 경우
       // 홈으로 보내버립니다.
       this.props.history.push('/main');
@@ -48,7 +48,7 @@ class MyComponent extends Component {
     
     if (path === '/logout') {
       // 로그아웃으로 넘어왔을 땐 토큰을 모두 삭제하고
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       this.props.setUserIndex(null);
       // 홈으로 보내버립니다.
       history.push('/login');
@@ -59,7 +59,7 @@ class MyComponent extends Component {
   render() {
     let renderLayout;
 
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       renderLayout = <AfterLoginLayout />;
     } else {
       renderLayout = <BeforeLoginLayout />;
