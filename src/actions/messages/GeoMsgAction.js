@@ -45,7 +45,7 @@ export function sendMessage(values, type) {
   return (dispatch, getState) => {
     const state = getState();
     const radius = state.user.profile.radius;
-    const testing = false;
+    const testing = false;    
 
     const messageData = {
       lng: state.app.position.lng,

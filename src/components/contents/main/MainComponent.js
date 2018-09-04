@@ -6,7 +6,7 @@ import styles from './../styles.css';
 
 import MessageList from './../../common/message/MessageList';
 import UserList from './../../common/ccu/UserList';
-import MapComponent from './map/MapComponent';
+import MapComponent from './../../common/map/MapComponent';
 
 function mapStateToProps(state) {
   return {
@@ -18,14 +18,13 @@ function mapStateToProps(state) {
 
 export class MainComponent extends Component {
   render() {
-    console.log(2);
     let contents;
 
     if (this.props.position && this.props.profile && this.props.socket) {
       // 필요한 정보가 모두 로드되고 난 후에 렌더링 해줘야 한다.
       contents = (
         <div className='h100'>
-          <MapComponent />
+          <MapComponent position={this.props.position} idValue="main-map" />
           <MessageList type="main" />
           <UserList type="main" />
         </div>

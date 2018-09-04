@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-// import markerPng from './../../../../../public/images/marker.png';
-import homePng from './../../../../../public/images/home.png';
+import markerPng from './../../../../public/images/marker.png';
+import homePng from './../../../../public/images/home.png';
 import styles from './styles.css';
 
 function mapStateToProps(state) {
   return {
-    position: state.app.position,
     profile: state.user.profile
   };
 }
@@ -38,10 +37,15 @@ class MapComponent extends Component {
 
       const CURRENT_POSITION = new window.naver.maps.LatLng(position.lat, position.lng);
 
+      let zoomValue = 9;
+      if (this.props.idValue !== "main-map") {
+        zoomValue = 8;
+      }
+
       var locationBtnHtml = `<a href="" class="btn_mylct"><img class="map-home-button" src="${homePng}"/></a>`;
-      var map = new window.naver.maps.Map('map', {
+      var map = new window.naver.maps.Map(this.props.idValue, {
           center: CURRENT_POSITION, //지도의 초기 중심 좌표
-          zoom: 9, //지도의 초기 줌 레벨
+          zoom: zoomValue, //지도의 초기 줌 레벨
           minZoom: 1, //지도의 최소 줌 레벨
           zoomControl: true, //줌 컨트롤의 표시 여부
           zoomControlOptions: { //줌 컨트롤의 옵션
@@ -49,13 +53,24 @@ class MapComponent extends Component {
           }
       });
 
-      var urlMarker = new window.naver.maps.Marker({
+      let markerConfig;
+      if (this.props.idValue === "main-map") {
+        markerConfig = {
           position: CURRENT_POSITION,
           map: map,
           title: 'urlMarker',
-          // icon: markerPng,
+          icon: markerPng,
           animation: window.naver.maps.Animation.BOUNCE
-      });
+        };
+      } else {
+        markerConfig = {
+          position: CURRENT_POSITION,
+          map: map,
+          icon: null
+        };
+      }
+
+      var urlMarker = new window.naver.maps.Marker(markerConfig);
 
       var circle = new window.naver.maps.Circle({
           map: map,
@@ -64,23 +79,25 @@ class MapComponent extends Component {
           fillColor: 'crimson',
           fillOpacity: 0.3,
           strokeColor: 'black',
-          strokeOpacity: 0.5
+          strokeOpacity: 0.4
       });
 
-      //customControl 객체를 이용하기
-      var customControl = new window.naver.maps.CustomControl(locationBtnHtml, {
-          position: window.naver.maps.Position.TOP_LEFT
-      });
-      var domEventListener = window.naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
-          map.setCenter(new window.naver.maps.LatLng(position.lat, position.lng));
-      });
-      customControl.setMap(map);
+      if (this.props.idValue === "main-map") {
+        //customControl 객체를 이용하기
+        var customControl = new window.naver.maps.CustomControl(locationBtnHtml, {
+            position: window.naver.maps.Position.TOP_LEFT
+        });
+        var domEventListener = window.naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
+            map.setCenter(new window.naver.maps.LatLng(position.lat, position.lng));
+        });
+        customControl.setMap(map);
+      }
     }
   }
 
   render() {
     return (
-      <div id="map" className="geo-chat-map" />
+      <div id={this.props.idValue} className={this.props.classValue} />
     );
   }
 };

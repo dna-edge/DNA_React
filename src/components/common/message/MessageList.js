@@ -207,12 +207,18 @@ class MessageList extends Component {
   renderBestMessages(){
     return this.props.best
       .map((best, i) => {
+        let contents = '';
+
+        if (best.type === "Image") contents = "[사진]";
+        else if (best.type === "Location") contents = "[좌표]";
+        else contents = best.message;
+
         return (
           <div className="best-chat-contents-item" key={"best"+best.idx}>
             <div className="bubble-side-wrapper">
               <p className="best-chat-rank">{i+1}위</p>
               <div className="message-thumb-up i-liked-it">
-                <FontAwesome className="message-thumb-up-fa" name="thumbs-up" />
+                <FontAwesome className="message-thumb-up-fa" name="star" />
                 <span className="message-thumb-up-count">{best.like_count}</span>
               </div>
             </div>
@@ -226,7 +232,7 @@ class MessageList extends Component {
               <div className="user-my-profile-text">
                 <p className="user-my-profile-nickname">{best.user.nickname}</p>
                 <span className="best-chat-contents">
-                  { best.type === "Image" ? "사진" : best.contents }
+                  {contents}
                 </span>
               </div>
               <CreatedAt date={best.created_at} />   
