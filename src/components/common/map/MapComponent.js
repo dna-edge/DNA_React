@@ -73,7 +73,7 @@ class MapComponent extends Component {
 
       var urlMarker = new window.naver.maps.Marker(markerConfig);
 
-      if (this.props.idValue !== "main-map") {
+      if (this.props.idValue === "main-map") {
         var circle = new window.naver.maps.Circle({
             map: map,
             center: CURRENT_POSITION,
