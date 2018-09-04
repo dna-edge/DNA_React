@@ -37,21 +37,22 @@ class MapComponent extends Component {
 
       const CURRENT_POSITION = new window.naver.maps.LatLng(position.lat, position.lng);
 
-      let zoomValue = 9;
-      if (this.props.idValue !== "main-map") {
-        zoomValue = 8;
+      let mapConfig = {
+        center: CURRENT_POSITION, //지도의 초기 중심 좌표
+        zoom: 8, //지도의 초기 줌 레벨
+        minZoom: 1, //지도의 최소 줌 레벨
+      };
+    
+      if (this.props.idValue === "main-map") {
+        mapConfig.zoom = 9;
+        mapConfig.zoomControl = true, //줌 컨트롤의 표시 여부
+        mapConfig.zoomControlOptions = { //줌 컨트롤의 옵션
+          position: window.naver.maps.Position.TOP_RIGHT
+        }
       }
 
       var locationBtnHtml = `<a href="" class="btn_mylct"><img class="map-home-button" src="${homePng}"/></a>`;
-      var map = new window.naver.maps.Map(this.props.idValue, {
-          center: CURRENT_POSITION, //지도의 초기 중심 좌표
-          zoom: zoomValue, //지도의 초기 줌 레벨
-          minZoom: 1, //지도의 최소 줌 레벨
-          zoomControl: true, //줌 컨트롤의 표시 여부
-          zoomControlOptions: { //줌 컨트롤의 옵션
-              position: window.naver.maps.Position.TOP_RIGHT
-          }
-      });
+      var map = new window.naver.maps.Map(this.props.idValue, mapConfig);
 
       let markerConfig;
       if (this.props.idValue === "main-map") {
@@ -72,15 +73,17 @@ class MapComponent extends Component {
 
       var urlMarker = new window.naver.maps.Marker(markerConfig);
 
-      var circle = new window.naver.maps.Circle({
-          map: map,
-          center: CURRENT_POSITION,
-          radius,
-          fillColor: 'crimson',
-          fillOpacity: 0.3,
-          strokeColor: 'black',
-          strokeOpacity: 0.4
-      });
+      if (this.props.idValue !== "main-map") {
+        var circle = new window.naver.maps.Circle({
+            map: map,
+            center: CURRENT_POSITION,
+            radius,
+            fillColor: 'crimson',
+            fillOpacity: 0.3,
+            strokeColor: 'black',
+            strokeOpacity: 0.4
+        });
+      }
 
       if (this.props.idValue === "main-map") {
         //customControl 객체를 이용하기

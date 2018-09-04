@@ -6,6 +6,7 @@ import FontAwesome from 'react-fontawesome';
 import { connect } from 'react-redux';
 
 import styles from './styles.css';
+import avatar from './../../../../public/images/avatar.png';
 
 function mapStateToProps(state) {
   return {
@@ -20,9 +21,8 @@ const Profile = (props) => (
     <div className="user-my-profile-top">
       <div className="avatar-wrapper">
         <img className="avatar-image"
-          src={(props.profile.avatar) !== null ?
-            props.profile.avatar :
-            "/../public/img/avatar.png"}/>
+          src={props.profile.avatar !== null && props.profile.avatar !== "null" ? 
+            props.profile.avatar : avatar} />
       </div>
       <div className="user-my-profile-text">
         <p className="user-my-profile-nickname">{props.profile.nickname}</p>
@@ -40,16 +40,14 @@ class UserList extends Component {
   }
 
   renderUsers() {
-    return this.props.users
+    return this.props.users    
       .map((user) => {
         if(this.props.profile.idx !== parseInt(user.idx)) {
           return (
             <div className="user-list-item" key={user.idx}>
               <div className="avatar-wrapper">
                 <img className="avatar-image"
-                  src={(user.avatar) !== null ?
-                    user.avatar :
-                    "/../public/img/avatar.png"}/>
+                  src={user.avatar !== null && user.avatar !== "null" ? user.avatar : avatar} />
               </div>
               <p className="user-list-item-nickname">{user.nickname}</p>
               <FontAwesome name="circle" 

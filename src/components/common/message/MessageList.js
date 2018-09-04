@@ -16,6 +16,7 @@ import styles from './styles.css';
 import config from './../../../config';
 
 import imagePath from './../../../../public/images/empty.png';
+import avatar from './../../../../public/images/avatar.png';
 
 function mapStateToProps(state) {
   return {
@@ -207,11 +208,12 @@ class MessageList extends Component {
   renderBestMessages(){
     return this.props.best
       .map((best, i) => {
+        console.log(best);
         let contents = '';
 
         if (best.type === "Image") contents = "[사진]";
         else if (best.type === "Location") contents = "[좌표]";
-        else contents = best.message;
+        else contents = best.contents;
 
         return (
           <div className="best-chat-contents-item" key={"best"+best.idx}>
@@ -225,9 +227,8 @@ class MessageList extends Component {
             <div className="user-my-profile-top">
               <div className="avatar-wrapper">
                 <img className="avatar-image"
-                  src={(best.user.avatar) !== null ?
-                    best.user.avatar :
-                    "/../public/img/avatar.png"}/>
+                  src={best.user.avatar !== null && best.user.avatar !== "null" ? 
+                  best.user.avatar : avatar} />
               </div>
               <div className="user-my-profile-text">
                 <p className="user-my-profile-nickname">{best.user.nickname}</p>

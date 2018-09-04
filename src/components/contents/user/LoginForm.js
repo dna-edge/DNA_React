@@ -64,7 +64,7 @@ class LoginForm extends Component {
         this.submitted = true;
         
         const API_URL = `${config.SERVER_HOST}:${config.USER_PORT}/api/users/login`;
-        axios.post(API_URL, props)
+        axios.post(API_URL, props, {mode: "no-cors"})
         .then(async (response) => {
             const result = response.data.result;
             let token = result.token;
@@ -80,14 +80,16 @@ class LoginForm extends Component {
           })
         .catch(error => {
             console.dir(error);
-            if (error.response.data.code === 23400) {
-              window.$('.field-ID').css("border", "red solid 1px");
-              window.$('.tag-ID').text('존재하지 않는 ID입니다.');
-              window.$('.tag-ID').show();
-            } else if (error.response.data.code === 24400) {
-              window.$('.field-Password').css("border", "red solid 1px");
-              window.$('.tag-Password').text('비밀번호가 일치하지 않습니다.');
-              window.$('.tag-Password').show();
+            if (error.response) {
+              if (error.response.data.code === 23400) {
+                window.$('.field-ID').css("border", "red solid 1px");
+                window.$('.tag-ID').text('존재하지 않는 ID입니다.');
+                window.$('.tag-ID').show();
+              } else if (error.response.data.code === 24400) {
+                window.$('.field-Password').css("border", "red solid 1px");
+                window.$('.tag-Password').text('비밀번호가 일치하지 않습니다.');
+                window.$('.tag-Password').show();
+              }
             }
         });
       // }

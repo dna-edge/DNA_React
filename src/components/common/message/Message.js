@@ -9,7 +9,7 @@ import { applyLike } from './../../../actions/messages/GeoMsgAction';
 import MapComponent from './../map/MapComponent';
 import deco from './../../../../public/images/deco.png';
 import megaphone from './../../../../public/images/megaphone.png';
-import config from './../../../config';
+import avatar from './../../../../public/images/avatar.png';
 
 const DayStart = (props) => (
   <div className="start-date-wrapper">
@@ -93,9 +93,7 @@ class Message extends Component {
           <div className="bubble-profile-wrapper">
             <div className="avatar-wrapper">
               <img className="avatar-image"
-                src={(avatarPath) !== null ?
-                  avatarPath :
-                  "/../public/img/avatar.png"}/>
+                src={avatarPath !== null && avatarPath !== "null" ? avatarPath : avatar} />
             </div>
             <p className='bubble-title-name'>
               {this.props.type === "DM" ? "" : this.props.message.user.nickname}

@@ -26,7 +26,7 @@
   height: 70px;
   border-radius: 10px;
   background-color: #F1F3F5;
-  z-index: 3;
+  z-index: 100 !important;
   overflow: hidden;
 }
 
@@ -101,13 +101,13 @@
 }
 
 .best-chat-contents-item .user-my-profile-nickname {
-  font-size: 20px;
-  margin-top: -5px;
+  font-size: 18px;
+  margin-top: -3px;
 }
 
 .best-chat-contents {
   font-family: 'NanumSquare' !important;
-  font-size: 17px !important;
+  font-size: 15px !important;
   display: block;
   white-space: nowrap;
   overflow: hidden;

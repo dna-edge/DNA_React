@@ -5,6 +5,8 @@ import Dotdotdot from 'react-dotdotdot';
 
 import { fetchOtherProfile } from './../../../../actions/helper';
 
+import avatar from './../../../../../public/images/avatar.png';
+
 function mapStateToProps(state) {
   return {
     profile: state.user.profile
@@ -50,9 +52,8 @@ class Conversation extends Component {
           <div className="conversation-list-left">
             <div className="avatar-wrapper">
               <img className="avatar-image"
-                src={(this.state.otherProfile.avatar) !== null ?
-                  this.state.otherProfile.avatar :
-                  "/../public/img/avatar.png"} />
+                src={this.state.otherProfile.avatar !== null && this.state.otherProfile.avatar !== "null" ?
+                  this.state.otherProfile.avatar : avatar }/>
             </div>
           </div>
 
