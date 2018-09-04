@@ -1,7 +1,7 @@
 import { GET_MESSAGES, SET_USER_LIST, GET_BEST_MESSAGES } from './../../actions/messages/GeoMsgAction';
 
 import { FETCH_DATA_SUCCESS, FETCH_BEST_SUCCESS } from './../../actions/index';
-import checkError from './../checkError';
+// import checkError from './../checkError';
 
 const INITIAL_STATE = {
   messages: null,
@@ -10,7 +10,7 @@ const INITIAL_STATE = {
 }
 
 export default function(state = INITIAL_STATE, action){
-  checkError(action);
+  // checkError(action);
 
   switch(action.type) {
     case FETCH_DATA_SUCCESS:

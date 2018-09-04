@@ -259,7 +259,7 @@
   position: absolute;
   background-color: #FDFDFD;
   border-radius: 5px;
-  border: 1px solid #e3e8ea;
+  border: 1px solid #d3dbdf;
   -webkit-transition: border 0.5s;
   transition: border 0.5s;
   padding: 1px 8px;  
@@ -270,7 +270,7 @@
 }
 
 .message-thumb-up:hover {
-  border: 1.5px solid #4f8bef;
+  border: 1px solid #787878;
   -webkit-transition: border 0.5s;
   transition: border 0.5s;
 
@@ -292,6 +292,11 @@
 .message-thumb-up-fa {
   color: #a6abad;
 }
+
+.i-liked-it {
+  border: 1px solid #0057e7;
+}
+
 .i-liked-it .message-thumb-up-fa {
   color: #0057e7;  
 }

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Notification from 'react-web-notification';
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter, Switch, Route, withRouter } from 'react-router-dom';
+import { Router, Switch, Route, withRouter } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
+import history from './../../history';
 
 import { connect } from 'react-redux';
 
@@ -43,21 +44,25 @@ class MyComponent extends Component {
     this.handleNotiOnShow = this.handleNotiOnShow.bind(this);
   }
 
-  async componentWillUpdate() {
+  async componentDidMount() {
     if (!this.props.socket || this.props.socket === null) {
-      await this.props.setSocketConnected();
+      this.props.setSocketConnected();
+    }
+
+    // 로그인 한 후에도 프로필을 가지고 있지 않다면
+    // 서버에 요청해서 다시 저장합니다.
+    if (!this.props.profile || this.props.profile === null) {
+      this.props.getProfile(JSON.parse(localStorage.getItem("token")).idx);
+    }
+
+    if (!this.props.position || this.props.position === null) {
+      this.props.setGeoPosition();
     }
   };
 
   componentDidUpdate() {
     if (!localStorage.getItem("token")) {
       return;
-    }
-
-    // 로그인 한 후에도 프로필을 가지고 있지 않다면
-    // 서버에 요청해서 다시 저장합니다.
-    if (!this.props.profile) {
-      this.props.getProfile(JSON.parse(localStorage.getItem("token")).idx);
     }
 
     // 소켓 설정하기 (로그인 된 상태에서만 설정해주기 위해 AfterLoginLayout에 위치합니다)
@@ -86,7 +91,7 @@ class MyComponent extends Component {
       socket.on('ping', () => {
         let type = '';
 
-        if (path === "/main") {           // 현재 path에 따라서 요구하는 정보가 달라야 합니다.
+        if (path === "/main" || path === "/") {           // 현재 path에 따라서 요구하는 정보가 달라야 합니다.
           type = "geo";               // /(전체 채팅)일 경우에는 위치 기준 주변 접속자 리스트를,
         } else if (path === "/dm"){   // /dm (다이렉트 메시지)일 경우에는 친구 접속자 리스트를 받습니다.
           type = "direct";
@@ -112,14 +117,15 @@ class MyComponent extends Component {
       return (
         <div className="h100">
           <NavAfterComponent />
-          <BrowserRouter>
+          <Router history={history}>
             <div className="h100calc">
               <Switch>
-                <Route path="/main" component={MainComponent} />
-                <Route path="/dm" component={DirectComponent} />
+                <Route exact path="/" component={MainComponent} />
+                <Route exact path="/main" component={MainComponent} />
+                <Route exact path="/dm" component={DirectComponent} />
               </Switch>
             </div>
-          </BrowserRouter>
+          </Router>
 
           <Notification
             ignore={this.state.ignore && this.state.title !== ''}
@@ -184,3 +190,4 @@ export default connect(mapStateToProps,
   { setGeoPosition, getProfile, setSocketConnected,
     handlePermissionGranted, handlePermissionDenied,
     handleNotSupported, setUserList })(AfterLoginLayout);
+    setSocketConnected

@@ -100,6 +100,18 @@ class MessageForm extends Component{
     }
   }
 
+  setLocation() {
+    if (this.state.type !== "Image") { // 이미 Location이 세팅된 상태가 아니라면
+
+    }
+  }
+
+  selectFile() {   
+    if (this.state.type !== "Image") { // 이미지가 이미 업로드된 상태가 아니라면
+      window.$("input:file").click();
+    }      
+  }
+
   onChange(e) {
     this.setState({ 
       file: e.target.files[0],
@@ -107,19 +119,18 @@ class MessageForm extends Component{
     });
 
     const fileName = window.$("input:file").val().replace(/^.*[\\\/]/, '');
-    window.$("#message-text").val("이미지를 전송합니다 : " + fileName);
-    window.$("#message-text").attr("readonly", true);
-  }
+    const ext = fileName.split(".").pop().toLowerCase();
 
-  selectFile() {   
-    if (this.state.type !== "Image") { // 이미지가 이미 업로드된 상태가 아니라면
-      window.$("input:file").click();
-      const ext = window.$("input:file").val().split(".").pop().toLowerCase();
-      if(ext.length > 0){
-        if(window.$.inArray(ext, ["gif","png","jpg","jpeg"]) == -1) { 
-          alert("gif,png,jpg 파일만 업로드 할수 있습니다.");
-          return false;  
-        }                  
+    if (ext.length > 0) {
+      if (!["gif","png","jpg","jpeg"].includes(ext)) {        
+        this.initialImage();
+        toast.error('git, png, jpg 형식의 파일만 업로드할 수 있습니다.', {
+          position: "top-right", autoClose: 2000, pauseOnHover: true,
+          hideProgressBar: true, closeOnClick: true, draggable: false
+        });
+      } else {        
+        window.$("#message-text").val("이미지를 전송합니다 : " + fileName);
+        window.$("#message-text").attr("readonly", true);
       }
     }
   }
@@ -173,13 +184,17 @@ class MessageForm extends Component{
         </button>
 
         <div className="message-vl" />
-        <button type="button" className="msg-form-button location-button">
+        <button type="button" className="msg-form-button location-button" onClick={this.setLocation}>
           <span className="ti-location-pin"></span>
         </button>
         <input type="file" id="file" onChange={this.onChange} />
         <Field name="image" component={renderInput} onClick={this.cancelUpload} />
         <button type="button" className="msg-form-button image-button" onClick={this.selectFile}>
           <span className="ti-image"></span>
+        </button>
+
+        <button type="button" className="msg-form-button location-button" onClick={this.setLocation}>
+          <span className="ti-location-pin"></span>
         </button>
       </form>
     )

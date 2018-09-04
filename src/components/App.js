@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ToastContainer, Slide } from "react-toastify";
-import { BrowserRouter, withRouter } from 'react-router-dom';
+import { Router, withRouter } from 'react-router-dom';
+import history from './../history';
 
 /* for Redux */
 import { connect } from 'react-redux';
@@ -35,7 +36,6 @@ class MyComponent extends Component {
   // 앱이 시작될 때 Fetch 해오기 시작
   componentWillMount() {
     this.props.setGeoPosition();
-    this.props.setSocketConnected();
 
     const path = this.props.location.pathname;
 
@@ -51,7 +51,7 @@ class MyComponent extends Component {
       localStorage.removeItem("token");
       this.props.setUserIndex(null);
       // 홈으로 보내버립니다.
-      this.props.history.push('/login');
+      history.push('/login');
       return;
     }
   }
@@ -66,14 +66,14 @@ class MyComponent extends Component {
     }
 
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <div className="h100">
         { renderLayout }
         <ToastContainer transition={Slide} position="top-right" rtl={false}
           autoClose={2000} hideProgressBar newestOnTop closeOnClick
           pauseOnVisibilityChange draggable={false} pauseOnHover />
         </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }

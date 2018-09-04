@@ -1,6 +1,5 @@
 import { GET_PROFILE, SET_USER_INDEX } from './../../actions/user/UserAction';
-import checkError from './../checkError';
-import { execFile } from 'child_process';
+// import checkError from './../checkError';
 
 const INITIAL_STATE = {
   profile: null,
@@ -9,7 +8,7 @@ const INITIAL_STATE = {
 }
 
 export default function(state = INITIAL_STATE, action) {
-  checkError(action);
+  // checkError(action);
 
   switch(action.type) {
     case GET_PROFILE:

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
 
-import { getProfile } from './../../../actions/user/UserAction';
-
 import styles from './../styles.css';
 
 import MessageList from './../../common/message/MessageList';
@@ -19,18 +17,6 @@ function mapStateToProps(state) {
 }
 
 export class MainComponent extends Component {
-  componentWillMount() {
-    if (!this.props.position || this.props.position === null) {
-      this.props.getProfile();
-    }
-  }
-
-  componentWillUpdate() {
-    if (!this.props.position || this.props.position === null) {
-      this.props.getProfile();
-    }
-  }
-
   render() {
     console.log(2);
     let contents;
@@ -60,4 +46,4 @@ export class MainComponent extends Component {
   }
 }
 
-export default connect(mapStateToProps, { getProfile })(MainComponent);
+export default connect(mapStateToProps, null)(MainComponent);

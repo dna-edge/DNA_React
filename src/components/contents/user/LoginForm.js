@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Button, Form, FormGroup } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form'
-import { BrowserRouter, Redirect } from 'react-router-dom';
+import history from './../../../history';
 
 import { getProfile, setUserIndex } from './../../../actions/user/UserAction';
 
@@ -76,7 +76,7 @@ class LoginForm extends Component {
             await this.props.setUserIndex(result.profile.idx);
 
             // 그리고 메인으로 이동한다.
-            this.props.history.push('/main');
+            history.push('/main');
           })
         .catch(error => {
             console.dir(error);
@@ -96,7 +96,7 @@ class LoginForm extends Component {
 
   componentWillMount() {
     if (localStorage.getItem("token")) {
-      (<Redirect to="/main" push={ true } />)
+      history.push('/main');
     }
   }
 

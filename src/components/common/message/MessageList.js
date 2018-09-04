@@ -100,10 +100,10 @@ class MessageList extends Component {
       nextProps.messages.map((message) => {joined[message.idx] = i; i++});
       this.setState({ refs: joined });
     }
-  }
+  }  
 
-  componentDidUpdate(prevProps, prevState){
-    if (this.initial && this.state.messages !== undefined && this.state.messages !== []) {
+  componentDidUpdate(prevProps){
+    if (this.initial && this.state.messages.length > 0) {
       this.objDiv = document.getElementsByClassName("message-list-chat-wrapper")[0];
       this.initial = false;
       this.scrollToBottom();
@@ -208,7 +208,7 @@ class MessageList extends Component {
     return this.props.best
       .map((best, i) => {
         return (
-          <div className="best-chat-contents-item" key={best.idx}>
+          <div className="best-chat-contents-item" key={"best"+best.idx}>
             <div className="bubble-side-wrapper">
               <p className="best-chat-rank">{i+1}위</p>
               <div className="message-thumb-up i-liked-it">
