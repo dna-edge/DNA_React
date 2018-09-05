@@ -77,6 +77,7 @@ class LoginForm extends Component {
 
             // 그리고 메인으로 이동한다.
             history.push('/main');
+            window.location.reload();
           })
         .catch(error => {
             console.dir(error);

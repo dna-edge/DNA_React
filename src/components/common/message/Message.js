@@ -58,6 +58,7 @@ class Message extends Component {
         console.log ('검색 결과가 없거나 기타 네트워크 에러');
       } else {
         const address = response.result.items[0].address;
+        console.log(response);
         window.$(".message-address-contents").html(address);
       }
     });
