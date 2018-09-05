@@ -451,6 +451,7 @@
   bottom: 0;
   background-color: #FDFDFC;
   border-radius: 5px;
+  border-top: 1px solid #d3dbdf;
 }
 
 .message-write:focus{
@@ -621,4 +622,23 @@
 .react-confirm-alert-button-group button:first-of-type {
   background-color: #6632b5 !important;
   margin-right: 10px !important;
+}
+
+.best-chat-contents-wrapper .ti-face-sad {
+  display: inline-block;
+  font-size: 25px;
+  color: #634C89 !important;
+  height: 70px;
+  line-height: 70px;
+}
+
+.best-chat-list-empty {
+  margin-left: 7px;
+  color: #634C89;
+  display: inline-block;
+  font-size: 20px;
+  margin-bottom: 0px;
+  height: 70px;
+  line-height: 70px;
+  vertical-align: top;
 }

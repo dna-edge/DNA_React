@@ -113,44 +113,50 @@ class MyComponent extends Component {
   };
 
   render() {
-    if (this.props.profile && this.props.socket && this.props.position) {
-      return (
-        <div className="h100">
-          <NavAfterComponent />
-          <Router history={history}>
-            <div className="h100calc">
-              <Switch>
-                <Route exact path="/" component={MainComponent} />
-                <Route exact path="/main" component={MainComponent} />
-                <Route exact path="/dm" component={DirectComponent} />
-              </Switch>
-            </div>
-          </Router>
+    let contents;
 
-          <Notification
-            ignore={this.state.ignore && this.state.title !== ''}
-            notSupported={this.props.handleNotSupported}
-            onPermissionGranted={this.props.handlePermissionGranted}
-            onPermissionDenied={this.props.handlePermissionDenied}
-            onShow={this.handleNotiOnShow}
-            timeout={5000}
-            title={this.state.title}
-            options={this.state.options}
-            />
-            <audio id='sound' preload='auto'>
-              <source src={soundMp3} type='audio/mpeg' />
-              <source src={soundOgg} type='audio/ogg' />
-              <embed hidden='true' autostart='false' loop='false' src={soundMp3} />
-            </audio>
-        </div>
+    if (this.props.profile && this.props.socket && this.props.position) {
+      contents = (
+        <Router history={history}>
+          <div className="h100calc">
+            <Switch>
+              <Route exact path="/" component={MainComponent} />
+              <Route exact path="/main" component={MainComponent} />
+              <Route exact path="/dm" component={DirectComponent} />
+            </Switch>
+          </div>
+        </Router>
       );
     } else {
-      return (
+      contents = (
         <div className='main-with-loader'>      
           <Loader type="Oval" color="#8a78b0" height="130" width="130" />
         </div>
       );
     }
+
+    return (
+      <div className="h100">
+        <NavAfterComponent />
+        {contents}
+
+        <Notification
+          ignore={this.state.ignore && this.state.title !== ''}
+          notSupported={this.props.handleNotSupported}
+          onPermissionGranted={this.props.handlePermissionGranted}
+          onPermissionDenied={this.props.handlePermissionDenied}
+          onShow={this.handleNotiOnShow}
+          timeout={5000}
+          title={this.state.title}
+          options={this.state.options}
+          />
+          <audio id='sound' preload='auto'>
+            <source src={soundMp3} type='audio/mpeg' />
+            <source src={soundOgg} type='audio/ogg' />
+            <embed hidden='true' autostart='false' loop='false' src={soundMp3} />
+          </audio>
+      </div>
+    );
   };
 
   makePushNoti(data) {

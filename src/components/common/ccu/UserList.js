@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 
 import styles from './styles.css';
 import avatar from './../../../../public/images/avatar.png';
+import imagePath from './../../../../public/images/empty.png';
 
 function mapStateToProps(state) {
   return {
@@ -64,8 +65,18 @@ class UserList extends Component {
       contents = (
         <Loader type="ThreeDots" color="#8a78b0" height="130" width="130" />
       );
-    } else {
-      contents = this.renderUsers();
+    } else if (this.props.users) {
+      if (this.props.users.length <= 1) {
+        contents = (
+          <div className="message-list-empty user">
+            <span className="ti-face-sad" />
+            <p className="user-list-empty">근처에 아직</p>
+            <p>접속한 유저가 없습니다</p>
+          </div>
+        );
+      } else {
+        contents = this.renderUsers();
+      }
     }
 
     return (

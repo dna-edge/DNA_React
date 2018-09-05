@@ -104,12 +104,14 @@ class MessageList extends Component {
   }  
 
   componentDidUpdate(prevProps){
+    if (this.initial) {
+      window.$(".message-list-wrapper > div:first-of-type").hide();
+    }
     if (this.initial && this.state.messages.length > 0) {
       this.objDiv = document.getElementsByClassName("message-list-chat-wrapper")[0];
       this.initial = false;
       this.scrollToBottom();
-      this.beforeHeight = this.objDiv.scrollHeight;
-      window.$(".message-list-wrapper > div:first-of-type").hide();
+      this.beforeHeight = this.objDiv.scrollHeight;      
     }
 
     if (!this.fetching && this.state.position !== null && this.state.position <= 0) {
@@ -273,7 +275,8 @@ class MessageList extends Component {
       if (this.props.best.length === 0) {
         bests = (
           <div className="best-chat-contents-wrapper">
-            <p>이 근방에서는 아직 작성된 베스트챗이 없습니다</p>
+            <span className="ti-face-sad" />
+            <p className="best-chat-list-empty">근처에 아직 작성된 베스트챗이 없습니다</p>
           </div>
         );
       } else {
