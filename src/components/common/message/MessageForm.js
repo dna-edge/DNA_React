@@ -156,6 +156,7 @@ class MessageForm extends Component{
             if (type === "Image") {
               this.initialImage();
             } else {
+              window.$("#message-text").val("");
               this.setState({type: "Message"});
             }
           }
