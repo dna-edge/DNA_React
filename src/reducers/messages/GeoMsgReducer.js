@@ -23,7 +23,11 @@ export default function(state = INITIAL_STATE, action){
       return { ...state, messages: action.payload.result };
 
     case GET_BEST_MESSAGES:
-      return { ...state, best: action.payload.data.result };
+      if (action.payload.data && action.payload.data.result) {
+        return { ...state, best: action.payload.data.result };
+      } else {
+        return { ...state, best: null };
+      }      
 
     case SET_USER_LIST:
       return {...state, users: action.payload }

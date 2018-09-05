@@ -105,8 +105,9 @@ class MyComponent extends Component {
         this.props.setUserList(data);
       });
 
-      // 확성이 이벤트를 받았을 경우, 푸시 메시지를 생성합니다.
+      // 확성기 이벤트를 받았을 경우, 푸시 메시지를 생성합니다.
       socket.on("speaker", (data) => {
+        console.log(data);
         this.makePushNoti(data);
       });
     }
@@ -188,7 +189,6 @@ class MyComponent extends Component {
 
   handleNotiOnShow(e, tag){
     document.getElementById('sound').play();
-    console.log(e, 'Notification shown tag:' + tag);
   };
 };
 

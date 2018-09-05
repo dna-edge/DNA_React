@@ -40,15 +40,24 @@ class MapComponent extends Component {
       let mapConfig = {
         center: CURRENT_POSITION, //지도의 초기 중심 좌표
         zoom: 8, //지도의 초기 줌 레벨
-        minZoom: 1, //지도의 최소 줌 레벨
+        minZoom: 8        
       };
     
       if (this.props.idValue === "main-map") {
         mapConfig.zoom = 9;
+        mapConfig.minZoom = 1, //지도의 최소 줌 레벨
         mapConfig.zoomControl = true, //줌 컨트롤의 표시 여부
         mapConfig.zoomControlOptions = { //줌 컨트롤의 옵션
           position: window.naver.maps.Position.TOP_RIGHT
         }
+      } else {
+        mapConfig.draggable = false;
+        mapConfig.pinchZoom = false;
+        mapConfig.scrollWheel = false;
+        mapConfig.keyboardShortcuts = false;
+        mapConfig.disableDoubleTapZoom = true;
+        mapConfig.disableDoubleClickZoom = true;
+        mapConfig.disableTwoFingerTapZoom = true;
       }
 
       var locationBtnHtml = `<a href="" class="btn_mylct"><img class="map-home-button" src="${homePng}"/></a>`;
