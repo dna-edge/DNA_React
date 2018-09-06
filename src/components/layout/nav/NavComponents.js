@@ -30,14 +30,10 @@ export const NavBeforeComponent = () => (
     <div className='nav-bar-wrapper'>
       <Navbar className='nav-bar'>
         <a href='/' className='nav-logo'><img className='nav-logo-img' src={imagePath} /></a>
-        <NavLink className='nav-main-item' href="/features"
-          style={{left: '75px'}}>
-          Features</NavLink>
         <Nav className='nav-items'>
           <Route exact path="/" component={LoginButton} />
           <Route path="/signup" component={LoginButton} />
           <Route path="/login" component={SignupButton} />
-          <Route path="/features" component={LoginButton} />
         </Nav>
       </Navbar>
     </div>
