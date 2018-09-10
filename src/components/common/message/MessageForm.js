@@ -52,8 +52,10 @@ class MessageForm extends Component{
       const formData = new FormData();
       formData.append('image', this.state.file);
 
-      const result = await imageFileUpload(formData);
-      values.contents = result.data;
+      const result = await imageFileUpload(formData, "image");
+      if (result.data && result.data.length > 0) {
+        values.contents = result.data[0].fileUrl;
+      }
     } else if (this.state.type === "Location") {
       values.contents = JSON.stringify(this.props.position);
     }
