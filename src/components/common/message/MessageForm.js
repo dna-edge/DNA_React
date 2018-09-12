@@ -16,8 +16,8 @@ const renderInput = (field) => {
   return (
     <div className="text-input-wrapper">
       <input {...field.input} type="text" id="message-text" autoComplete="off"
-       value={field.value}
-       onClick={field.onClick} />
+        value={field.value}
+        onClick={field.onClick} />
     </div>
   )
 };
@@ -175,7 +175,8 @@ class MessageForm extends Component{
     const { handleSubmit } = this.props;
 
     return(
-      <form className="message-write" encType="multipart/form-data"
+      <form className={`message-write ${this.props.type === "main"?"":"dm-form"}`} 
+        encType="multipart/form-data"
         onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         { this.props.type === "main" ?
         <div className="speaker-button-wrapper">

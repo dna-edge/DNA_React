@@ -463,9 +463,13 @@
 .text-input-wrapper {
   position: relative;
   display: inline-block;
-  width: calc(100% - 215px);
+  width: calc(100% - 220px);
   height: 100% !important;
   vertical-align: top;
+}
+
+.dm-form .text-input-wrapper {
+  width: calc(100% - 169px) !important;  
 }
 
 #message-text{
@@ -482,7 +486,7 @@
   margin: 0 !important;
 }
 
-.direct-message #message-text {
+.dm-form #message-text {
   padding-left: 20px !important;
 }
 
@@ -586,7 +590,7 @@
   position: absolute;
   display: block;
   top: 10px;
-  right: 50px;
+  right: 53px;
 }
 
 #file { width:0; height:0; }          
