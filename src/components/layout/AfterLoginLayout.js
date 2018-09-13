@@ -39,6 +39,8 @@ class MyComponent extends Component {
       title: ''
     };
 
+    this.isSessionStored = false;
+
     this.makePushNoti = this.makePushNoti.bind(this);
     this.handleNotiOnShow = this.handleNotiOnShow.bind(this);
   }
@@ -82,10 +84,10 @@ class MyComponent extends Component {
       };
       
       // 2. 연결하면서 현재 정보를 서버에 전송해 저장되도록 합니다.
-      socket.on('connect', function() {
-        console.log("Socket is connected");
+      if (!this.isSessionStored) {
         socket.emit('store', info);
-      });
+        this.isSessionStored = true;
+      };
 
       // 서버에서 heartbeat가 올 경우, 응답으로 현재 정보를 넘겨줍니다.
       socket.on('ping', () => {
