@@ -12,7 +12,6 @@ import { setGeoPosition, handlePermissionGranted, setSocketConnected,
 import { getProfile } from './../../actions/user/UserAction';
 import { setUserList } from './../../actions/messages/GeoMsgAction';
 
-/* import Components */
 import { NavAfterComponent } from './nav/NavComponents';
 import MainComponent from './../contents/main/MainComponent';
 import DirectComponent from './../contents/direct/DirectComponent';
@@ -81,9 +80,10 @@ class MyComponent extends Component {
         position: [position.lng, position.lat], // 클라이언트의 현재 위치
         radius  : profile.radius                // 메시지를 받아볼 반경 값
       };
-
+      
       // 2. 연결하면서 현재 정보를 서버에 전송해 저장되도록 합니다.
       socket.on('connect', function() {
+        console.log("Socket is connected");
         socket.emit('store', info);
       });
 
@@ -91,13 +91,13 @@ class MyComponent extends Component {
       socket.on('ping', () => {
         let type = '';
 
-        if (path === "/main" || path === "/") {           // 현재 path에 따라서 요구하는 정보가 달라야 합니다.
-          type = "geo";               // /(전체 채팅)일 경우에는 위치 기준 주변 접속자 리스트를,
-        } else if (path === "/dm"){   // /dm (다이렉트 메시지)일 경우에는 친구 접속자 리스트를 받습니다.
+        if (path === "/main" || path === "/") { // 현재 path에 따라서 요구하는 정보가 달라야 합니다.
+          type = "geo";                         // /(전체 채팅)일 경우에는 위치 기준 주변 접속자 리스트를,
+        } else if (path === "/dm"){             // /dm (다이렉트 메시지)일 경우에는 친구 접속자 리스트를 받습니다.
           type = "direct";
         }
 
-        socket.emit('update', type, info);  // 업데이트된 정보를 소켓에 전달해 저장합니다.
+        socket.emit('update', type, info);      // 업데이트된 정보를 소켓에 전달해 저장합니다.
       });
 
       // update에 대한 응답으로 현재 접속한 유저 리스트를 받아와 state에 매핑합니다.
@@ -171,15 +171,13 @@ class MyComponent extends Component {
     const icon = speakerPng;
     // const icon = 'http://localhost:3000/Notifications_button_24.png';
 
-    // Available options
-    // See https://developer.mozilla.org/en-US/docs/Web/API/Notification/Notification
     const options = {
       tag: tag,
       body: body,
       icon: icon,
       lang: 'en',
       dir: 'ltr',
-      sound: soundMp3  // no browsers supported https://developer.mozilla.org/en/docs/Web/API/notification/sound#Browser_compatibility
+      sound: soundMp3 
     }
     this.setState({
       title: title,
