@@ -12,12 +12,12 @@ import config from './../../../config';
 import styles from './styles.css';
 
 // validation용 필드
-const renderField = ({ input, label, placeholder, type, auth }) => (
+const renderField = ({ input, label, placeholder, type }) => (
   <div>
     <label>{label}</label>
     <div>
-      <input {...input} className={`field-${label} form-control`} 
-        placeholder={placeholder} type={type} value={auth} autoFocus/>
+      <input {...input} id={label} className={`field-${label} form-control`} 
+        placeholder={placeholder} type={type} />
     </div>
   </div>
 );
@@ -114,12 +114,12 @@ class LoginForm extends Component {
         <div className='login-form-tab'>
           <FormGroup>
             <Field component={renderField} name="id" type="text"
-              label="ID" placeholder="아이디를 입력해주세요." auth="3457soso" />
+              label="ID" placeholder="아이디를 입력해주세요. (test)" />
             <p className="form-error-tag tag-ID">아이디를 입력해주세요.</p>
           </FormGroup>
           <FormGroup>
             <Field component={renderField} name="password" type="password"
-              label="Password" placeholder="비밀번호를 입력해주세요." auth="qwer1234" />
+              label="Password" placeholder="비밀번호를 입력해주세요. (qwer1234)" />
             <p className="form-error-tag tag-Password">비밀번호를 입력해주세요.</p>
           </FormGroup>
           <Button type='submit' disabled={submitting} className='form-button'>LOG IN</Button>
