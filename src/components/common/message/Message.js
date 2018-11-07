@@ -114,6 +114,7 @@ class Message extends Component {
             <div className="bubble-contents">
               {this.props.message.type === "Message" || this.props.message.type === "LoudSpeaker" ?
                 this.props.message.contents : ""}
+              {this.props.message.type === "Share" ? "[DNA] 모바일에서만 볼 수 있는 메시지 타입입니다" : ""}
               {this.props.message.type === "Image" ? 
                 <img className="bubble-image" src={this.props.message.contents} /> : ""}
               {this.props.message.type === "Location" ? 
