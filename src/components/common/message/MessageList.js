@@ -228,7 +228,7 @@ class MessageList extends Component {
             <div className="user-my-profile-top">
               <div className="avatar-wrapper">
                 <img className="avatar-image"
-                  src={best.user.anonymity === 0 && best.user.avatar !== null && best.user.avatar !== "null" 
+                  src={ best.user.anonymity === 0 && best.user.avatar !== null && best.user.avatar !== "null" 
                   ? best.user.avatar : avatar} />
               </div>
               <div className="user-my-profile-text">
