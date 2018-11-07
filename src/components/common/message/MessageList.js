@@ -228,7 +228,7 @@ class MessageList extends Component {
             <div className="user-my-profile-top">
               <div className="avatar-wrapper">
                 <img className="avatar-image"
-                  src={best.user.anonymity === 0 && best.user.avatar !== null && best.user.avatar !== "null" 
+                  src={ best.user.anonymity === 0 && best.user.avatar !== null && best.user.avatar !== "null" 
                   ? best.user.avatar : avatar} />
               </div>
               <div className="user-my-profile-text">
@@ -248,8 +248,7 @@ class MessageList extends Component {
   }
 
   render() {
-    if (!this.state.messages || this.state.messages === null || 
-      !this.props.best || this.props.best === null) {
+    if (!this.state.messages || this.state.messages === null) {
       return (
         <div className='message-list-wrapper'>
           <Loader type="Oval" color="#8a78b0" height="130" width="130" />
@@ -275,19 +274,21 @@ class MessageList extends Component {
         }
       }
 
-      if (this.props.best.length === 0) {
-        bests = (
-          <div className="best-chat-contents-wrapper">
-            <span className="ti-face-sad" />
-            <p className="best-chat-list-empty">근처에 아직 작성된 베스트챗이 없습니다</p>
-          </div>
-        );
-      } else {
-        bests = (
-          <div className="best-chat-contents-wrapper">
-            {this.renderBestMessages()}
-          </div>
-        )
+      if (this.props.best) {
+        if (this.props.best.length === 0) {
+          bests = (
+            <div className="best-chat-contents-wrapper">
+              <span className="ti-face-sad" />
+              <p className="best-chat-list-empty">근처에 아직 작성된 베스트챗이 없습니다</p>
+            </div>
+          );
+        } else {
+          bests = (
+            <div className="best-chat-contents-wrapper">
+              {this.renderBestMessages()}
+            </div>
+          )
+        }
       }
       return (
         <div className="message-list-wrapper">
