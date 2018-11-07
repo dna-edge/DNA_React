@@ -228,11 +228,14 @@ class MessageList extends Component {
             <div className="user-my-profile-top">
               <div className="avatar-wrapper">
                 <img className="avatar-image"
-                  src={best.user.avatar !== null && best.user.avatar !== "null" ? 
-                  best.user.avatar : avatar} />
+                  src={best.user.anonymity === 0 && best.user.avatar !== null && best.user.avatar !== "null" 
+                  ? best.user.avatar : avatar} />
               </div>
               <div className="user-my-profile-text">
-                <p className="user-my-profile-nickname">{best.user.nickname}</p>
+                <p className="user-my-profile-nickname">
+                { best.user.anonymity === 1
+                  ? config.ADJECTIVE[best.user.idx & 100] + " " + config.ANIMAL[best.user.idx % 100] 
+                  : best.user.nickname }</p>
                 <span className="best-chat-contents">
                   {contents}
                 </span>

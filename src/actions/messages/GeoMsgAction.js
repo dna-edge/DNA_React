@@ -44,7 +44,6 @@ export function getBestMessages(coords, radius){
 export function sendMessage(values, type) {
   return (dispatch, getState) => {
     const state = getState();
-    const radius = state.user.profile.radius;
     const testing = false;    
 
     const messageData = {
@@ -56,7 +55,7 @@ export function sendMessage(values, type) {
 
     // axios로 직접 통신하지 않고 app에 직접 연결된 socket을 통해 send_message 이벤트를 발생시킨다.
     const data = {
-      token, messageData, radius, testing
+      token, messageData, testing
     };
 
     state.app.socket.emit("save_msg", data);
